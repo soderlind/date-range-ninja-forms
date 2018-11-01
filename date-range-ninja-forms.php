@@ -37,14 +37,14 @@ add_filter(
 
 			protected $_test_value = '';
 
-			protected $_settings = [ 'date_range_default', 'date_range_advanced' ];
+			protected $_settings = [ 'dr_date_format' ];
 
 			protected $_settings_exclude = [ 'default', 'input_limit_set', 'disable_input' ];
 
 			public function __construct() {
 				 parent::__construct();
 
-				$this->_nicename = __( 'Date Range', 'ninja-forms' );
+				$this->_nicename = __( 'Date Range', 'date-range-ninja-forms' );
 				$this->init();
 			}
 
@@ -93,31 +93,60 @@ add_filter(
 	'ninja_forms_field_settings',
 	function( $settings ) {
 
-		$settings['date_range_default'] = [
-			'name'  => 'date_range_default',
-			'type'  => 'toggle',
-			'label' => __( 'Default To ..', 'ninja-forms' ),
-			'width' => 'one-half',
-			'group' => 'primary',
-		];
 
-		$settings['date_range_advanced'] = [
-			'name'    => 'date_range_advanced',
+		$settings[ 'dr_date_format' ] = [
+			'name'    => 'dr_date_format',
 			'type'    => 'select',
-			'label'   => __( 'Format', 'ninja-forms' ),
+			'label'   => __( 'Date Format', 'date-range-ninja-forms' ),
 			'width'   => 'full',
 			'group'   => 'primary',
 			'options' => [
+				// [
+				// 	'label' => sprintf( __( 'default (%s)', 'date-range-ninja-forms' ), get_option( 'date_format' ) ) ,
+				// 	'value' => 'default',
+				// ],
 				[
-					'label' => __( 'aa', 'ninja-forms' ),
-					'value' => 'aa',
+					'label' => __( 'm/d/Y', 'date-range-ninja-forms' ),
+					'value' => 'MM/DD/YYYY',
 				],
 				[
-					'label' => __( 'bb', 'ninja-forms' ),
-					'value' => 'bb',
+					'label' => __( 'm-d-Y', 'date-range-ninja-forms' ),
+					'value' => 'MM-DD-YYYY',
+				],
+				[
+					'label' => __( 'm.d.Y', 'date-range-ninja-forms' ),
+					'value' => 'MM.DD.YYYY',
+				],
+				[
+					'label' => __( 'm/d/Y', 'date-range-ninja-forms' ),
+					'value' => 'DD/MM/YYYY',
+				],
+				[
+					'label' => __( 'd-m-Y', 'date-range-ninja-forms' ),
+					'value' => 'DD-MM-YYYY',
+				],
+				[
+					'label' => __( 'd.m.Y', 'date-range-ninja-forms' ),
+					'value' => 'DD.MM.YYYY',
+				],
+				[
+					'label' => __( 'Y-m-d', 'date-range-ninja-forms' ),
+					'value' => 'YYYY-MM-DD',
+				],
+				[
+					'label' => __( 'Y/m/d', 'date-range-ninja-forms' ) ,
+					'value' => 'YYYY/MM/DD',
+				],
+				[
+					'label' => __( 'Y.m.d', 'date-range-ninja-forms' ),
+					'value' => 'YYYY.MM.DD',
+				],
+				[
+					'label' => __( 'l, F d Y', 'date-range-ninja-forms' ),
+					'value' => 'dddd, MMMM D YYYY',
 				],
 			],
-			'value'   => 'bb',
+			'value'   => 'MM/DD/YYYY',
 		];
 
 		return $settings;

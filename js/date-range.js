@@ -12,13 +12,13 @@
 			this.listenTo(radioChannel, 'render:view', this.renderView);
 		},
 		renderView: function (view) {
-			// var dateFormat = view.model.get( 'date_format' );
+			var dateFormat = view.model.get( 'dr_date_format' );
 
 			// // For "default" date format, convert PHP format to JS compatible format.
 			// if( '' == dateFormat || 'default' == dateFormat ){
 			//     dateFormat = this.convertDateFormat( nfi18n.dateFormat ); // 'nfi18n' from wp_localize in ninja forms
 			// }
-			var dateFormat = 'DD.MM.YYYY';
+			// var dateFormat = 'DD.MM.YYYY';
 			var daterangeField = $(view.el).find('.daterange')[0];
 
 			/**
