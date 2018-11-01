@@ -27,7 +27,7 @@ TBA
 ## Screenshots
 
 ### 1. Using Ninja Forms to add the Date Range field.
-[missing image]
+<img src="assets/screenshot-1.gif" />
 
 ### 2. Date Range at the front-end.
 <img src="assets/screenshot-2.gif" />
