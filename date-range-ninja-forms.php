@@ -20,6 +20,11 @@
  * License URI: http://www.gnu.org/licenses/gpl-2.0.txt
  */
 
+namespace Soderlind\NinjaForms\DateRange;
+
+/**
+ * Register Date Range field
+ */
 add_filter(
 	'ninja_forms_register_fields',
 	function( $fields ) {
@@ -33,7 +38,7 @@ add_filter(
 
 			protected $_icon = 'calendar';
 
-			protected $_templates = 'daterange';
+			protected $_templates = 'daterange'; // fields-daterange.html, path set in register_template_path()
 
 			protected $_test_value = '';
 
@@ -70,12 +75,22 @@ add_filter(
 				return $file_paths;
 			}
 
+			/**
+			 * Enqueue scripts
+			 *
+			 * @return void
+			 */
 			public function scripts() {
 				wp_enqueue_script( 'moment', '//cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment-with-locales.min.js', [ 'jquery' ], rand(), true );
 				wp_enqueue_script( 'lightpick', plugin_dir_url( __FILE__ ) . 'js/lightpick.js', [ 'moment' ], rand(), true );
 				wp_enqueue_script( 'date-range', plugin_dir_url( __FILE__ ) . 'js/date-range.js', [ 'lightpick' ], rand(), true );
 			}
 
+			/**
+			 * Enqueue style
+			 *
+			 * @return void
+			 */
 			public function style() {
 				wp_enqueue_style( 'lightpick', plugin_dir_url( __FILE__ ) . 'js/lightpick.css', [] );
 			}
@@ -86,11 +101,13 @@ add_filter(
 	}
 );
 
+
+/**
+ * Add field settings
+ */
 add_filter(
 	'ninja_forms_field_settings',
 	function( $settings ) {
-
-
 		$settings[ 'dr_date_format' ] = [
 			'name'    => 'dr_date_format',
 			'type'    => 'select',
