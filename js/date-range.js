@@ -5,7 +5,7 @@
 (function ($) {
 
 	var nfRadio = Backbone.Radio;
-	var radioChannel = nfRadio.channel('daterange'); // your $_type value, define in date-range-ninja-forms.php
+	var radioChannel = nfRadio.channel('daterange'); // 'daterange',  the $_type value, defined in date-range-ninja-forms.php
 
 	var selectedHTML = Marionette.Object.extend({
 		initialize: function () {
