@@ -28,6 +28,10 @@ TBA
 
 == Changelog ==
 
+= 0.0.2 =
+
+* Set date format in admin
+
 = 0.0.1 =
 
 * Initial release.

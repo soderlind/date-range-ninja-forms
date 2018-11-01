@@ -12,7 +12,7 @@
  * Plugin URI: https://github.com/soderlind/date-range-ninja-forms
  * GitHub Plugin URI: https://github.com/soderlind/date-range-ninja-forms
  * Description: description
- * Version:     0.0.1
+ * Version:     0.0.2
  * Author:      Per Soderlind
  * Author URI:  https://soderlind.no
  * Text Domain: date-range-ninja-forms
@@ -72,15 +72,12 @@ add_filter(
 
 			public function scripts() {
 				wp_enqueue_script( 'moment', '//cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment-with-locales.min.js', [ 'jquery' ], rand(), true );
-				// wp_enqueue_script( 'daterangepicker', '//cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js', ['moment'], rand(), true );
 				wp_enqueue_script( 'lightpick', plugin_dir_url( __FILE__ ) . 'js/lightpick.js', [ 'moment' ], rand(), true );
 				wp_enqueue_script( 'date-range', plugin_dir_url( __FILE__ ) . 'js/date-range.js', [ 'lightpick' ], rand(), true );
 			}
 
 			public function style() {
-				// wp_enqueue_style( 'lightpick', '//cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css', [] );
 				wp_enqueue_style( 'lightpick', plugin_dir_url( __FILE__ ) . 'js/lightpick.css', [] );
-
 			}
 
 		};
