@@ -79,7 +79,7 @@ add_filter(
 
 			public function style() {
 				// wp_enqueue_style( 'lightpick', '//cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css', [] );
-				wp_enqueue_style( 'lightpick', plugin_dir_url( __FILE__ ) . 'js/lightpick.css', [ ] );
+				wp_enqueue_style( 'lightpick', plugin_dir_url( __FILE__ ) . 'js/lightpick.css', [] );
 
 			}
 
