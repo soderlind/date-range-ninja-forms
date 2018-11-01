@@ -38,7 +38,7 @@ TBA
 
 ### 0.0.2
 
-* Set date format in admin
+* Set date format in Ninja Form builder
 
 ### 0.0.1
 
