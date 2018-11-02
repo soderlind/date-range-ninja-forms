@@ -8,7 +8,7 @@
  * @license     GPL-2.0+
  *
  * @wordpress-plugin
- * Plugin Name: Date Range for Ninja Forms
+ * Plugin Name: Date Range field for Ninja Forms
  * Plugin URI: https://github.com/soderlind/date-range-ninja-forms
  * GitHub Plugin URI: https://github.com/soderlind/date-range-ninja-forms
  * Description: description
@@ -38,13 +38,13 @@ add_filter(
 
 			protected $_icon = 'calendar';
 
-			protected $_templates = 'daterange'; // fields-daterange.html, path set in register_template_path()
+			protected $_templates = 'daterange'; // maps to fields-daterange.html, path set in register_template_path()
 
 			protected $_test_value = '';
 
-			protected $_settings = [ 'dr_date_format' ];
+			protected $_settings = [ 'dr_date_format' ]; // maps to the settings array, see the ninja_forms_field_settings filter below.
 
-			protected $_settings_exclude = [ 'default', 'input_limit_set', 'disable_input' ];
+			protected $_settings_exclude = [ 'default', 'input_limit_set', 'disable_input' ]; // remove noice
 
 			public function __construct() {
 				 parent::__construct();
@@ -77,6 +77,8 @@ add_filter(
 
 			/**
 			 * Enqueue scripts
+			 *
+			 * date-range.js connects the lightpick.js script with ninja forms
 			 *
 			 * @return void
 			 */
