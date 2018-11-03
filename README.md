@@ -1,13 +1,15 @@
-# Date Range for Ninja Forms
-**Contributors:** PerS
-**Donate link:** https://soderlind.no/donate/
-**Tags:** date
-**Requires at least:** 4.9.8
-**Tested up to:** 4.9.8
-**Stable tag:** 0.0.1
-Requires PHP: 7.0
-**License:** GPLv2 or later
-**License URI:** https://www.gnu.org/licenses/gpl-2.0.html
+# Date Range field for Ninja Forms
+&nbsp; | &nbsp;
+------------ | -------------
+**Contributors:** | PerS
+**Donate link:** | https://soderlind.no/donate/
+**Tags:** | date
+**Requires at least:** | 4.9.8
+**Tested up to:** | 4.9.8
+**Stable tag:** | 0.0.1
+Requires PHP: | 7.0
+**License:** | GPLv2 or later
+**License URI:** | https://www.gnu.org/licenses/gpl-2.0.html
 
 Add a Date Range field to Ninja Forms.
 
