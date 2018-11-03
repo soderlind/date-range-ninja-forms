@@ -8,17 +8,22 @@
 	var radioChannel = nfRadio.channel('daterange'); // 'daterange',  the $_type value, defined in date-range-ninja-forms.php
 
 	var selectedHTML = Marionette.Object.extend({
+		/**
+		 * When initialize the form, listen to the radio chanel to see if there's a 'daterange' chanel.
+		 */
 		initialize: function () {
 			this.listenTo(radioChannel, 'render:view', this.renderView);
 		},
+		/**
+		 * When rendering the form (i.e. the view), attach custom javascript code and events.
+		 */
 		renderView: function (view) {
-			var dateFormat = view.model.get( 'dr_date_format' );
+			var dateFormat = view.model.get( 'dr_date_format' ); // get setting
 
 			// For "default" date format, convert PHP format to JS compatible format.
 			if( '' == dateFormat || 'default' == dateFormat ){
 			    dateFormat = this.convertDateFormat( drDateRange.dateFormat ); // 'drDateRange' from wp_localize in date-range-ninja-forms.php
 			}
-			// var dateFormat = 'DD.MM.YYYY';
 			var daterangeField = $(view.el).find('.daterange')[0];
 
 			/**

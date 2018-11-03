@@ -29,7 +29,7 @@ define( 'DR_VERSION_NUMBER', '0.0.3' );
 add_filter(
 	'ninja_forms_register_fields',
 	function( $fields ) {
-		$fields['daterange'] = new class extends \NF_Abstracts_Input {
+		$fields['daterange'] = new class extends \NF_Abstracts_Input { // anonymous class, PHP 7.x requiered
 			protected $_name = 'daterange';
 			protected $_type = 'daterange';
 
@@ -79,7 +79,7 @@ add_filter(
 			/**
 			 * Enqueue scripts
 			 *
-			 * date-range.js connects the lightpick.js script with ninja forms
+			 * js/date-range.js connects the lightpick.js script with ninja forms
 			 *
 			 * @return void
 			 */
