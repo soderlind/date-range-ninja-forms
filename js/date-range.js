@@ -14,10 +14,10 @@
 		renderView: function (view) {
 			var dateFormat = view.model.get( 'dr_date_format' );
 
-			// // For "default" date format, convert PHP format to JS compatible format.
-			// if( '' == dateFormat || 'default' == dateFormat ){
-			//     dateFormat = this.convertDateFormat( nfi18n.dateFormat ); // 'nfi18n' from wp_localize in ninja forms
-			// }
+			// For "default" date format, convert PHP format to JS compatible format.
+			if( '' == dateFormat || 'default' == dateFormat ){
+			    dateFormat = this.convertDateFormat( drDateRange.dateFormat ); // 'drDateRange' from wp_localize in date-range-ninja-forms.php
+			}
 			// var dateFormat = 'DD.MM.YYYY';
 			var daterangeField = $(view.el).find('.daterange')[0];
 

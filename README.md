@@ -36,6 +36,10 @@ TBA
 
 ## Changelog
 
+### 0.0.3
+
+* In Ninja Forms builder, select WP Settings date.
+
 ### 0.0.2
 
 * Set date format in Ninja Form builder
