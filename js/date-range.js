@@ -3,18 +3,22 @@
  */
 
 (function ($) {
-
 	var nfRadio = Backbone.Radio;
 	var radioChannel = nfRadio.channel('daterange'); // 'daterange',  the $_type value, defined in date-range-ninja-forms.php
 
 	var selectedHTML = Marionette.Object.extend({
+
 		/**
+		 * initialize()
+		 *
 		 * When initialize the form, listen to the radio chanel to see if there's a 'daterange' chanel.
 		 */
 		initialize: function () {
 			this.listenTo(radioChannel, 'render:view', this.renderView);
 		},
 		/**
+		 * renderView()
+		 *
 		 * When rendering the form (i.e. the view), attach custom javascript code and events.
 		 */
 		renderView: function (view) {
@@ -26,11 +30,13 @@
 			}
 			var daterangeField = $(view.el).find('.daterange')[0];
 
+
 			/**
 			 * Note, you can replace the code below with your own date range plugin. If
 			 * you do, remeber to load needed libraries using wp_enqueue_script/style in
 			 * date-range-ninja-forms-php
 			 */
+
 			// https://wakirin.github.io/Lightpick/
 			var picker = new Lightpick({
 				field: daterangeField,
@@ -53,11 +59,20 @@
 				// },
 				numberOfMonths: 2,
 				// selectForward: true,
-				// minDays: 3,
+				// Minimal number of Days in range.
+				minDays: 3,
 				// maxDays: 7,
+				minDate: new Date(Date.now() + 24 * 60 * 60 * 1000),
 				// if footer, set autoclose to false
-				autoclose: false,
+				autoclose: true,
 				footer: true,
+				onSelect: function (startDate, endDate) {
+					if (startDate && endDate) {
+						jQuery(daterangeField).val(
+								startDate.format(dateFormat) + ' - ' + endDate.format(dateFormat)
+						).trigger( 'change' );
+					}
+				}
 			});
 		},
 		/**
