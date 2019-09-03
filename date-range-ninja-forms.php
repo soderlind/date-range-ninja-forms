@@ -136,7 +136,7 @@ add_filter(
 					'value' => 'MM.DD.YYYY',
 				],
 				[
-					'label' => __( 'm/d/Y', 'date-range-ninja-forms' ),
+					'label' => __( 'd/m/Y', 'date-range-ninja-forms' ),
 					'value' => 'DD/MM/YYYY',
 				],
 				[
