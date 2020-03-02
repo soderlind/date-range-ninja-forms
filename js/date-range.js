@@ -22,58 +22,91 @@
 		 * When rendering the form (i.e. the view), attach custom javascript code and events.
 		 */
 		renderView: function (view) {
-			var dateFormat = view.model.get( 'dr_date_format' ); // get setting
+			var drDateFormat = view.model.get( 'dr_date_format' ); // get setting
+			var drShowWeekNumbers = view.model.get( 'dr_show_week_numbers' ); // get setting
+			var drStartOfWeek = view.model.get( 'dr_start_of_week' ); // get setting
+			var drDisableWeekends = view.model.get( 'dr_disable_weekends' ); // get setting
+			var drSelectBackward = view.model.get( 'dr_select_backward' ); // get setting
+			var drToolTip = view.model.get( 'dr_tooltip' ); // get setting
+			var drTooltipSingular = view.model.get( 'dr_tooltip_singular' ); // get setting
+			var drTooltipSingular = view.model.get( 'dr_tooltip_singular' ); // get setting
+			var drTooltipPlural = view.model.get( 'dr_tooltip_plural' ); // get setting
 
 			// For "default" date format, convert PHP format to JS compatible format.
-			if( '' == dateFormat || 'default' == dateFormat ){
-			    dateFormat = this.convertDateFormat( drDateRange.dateFormat ); // 'drDateRange' from wp_localize in date-range-ninja-forms.php
+			if ('' == drDateFormat || 'default' == drDateFormat ){
+				drDateFormat = this.convertDateFormat( drDateRange.dateFormat ); // 'drDateRange' from wp_localize in date-range-ninja-forms.php
 			}
 			var daterangeField = $(view.el).find('.daterange')[0];
 
-
+			var lang = drDateRange.lang.replace('_', '-');
+			try {
+				Intl.getCanonicalLocales(lang);
+			} catch (error) {
+				console.error(error)
+				var lang = 'en-US';
+			}
 			/**
 			 * Note, you can replace the code below with your own date range plugin. If
 			 * you do, remeber to load needed libraries using wp_enqueue_script/style in
 			 * date-range-ninja-forms-php
 			 */
 
-			// https://wakirin.github.io/Lightpick/
-			var picker = new Lightpick({
-				field: daterangeField,
-				// first day of the week
-				// 1 = Monday
-				firstDay: 1,
-				singleDate: false,
-				format: dateFormat,
-				separator: ' - ',
-
-				// lang: 'nb',
-				// locale : {
-				// 	buttons: {
-				// 		prev: '<',
-				// 		next: '>',
-				// 		close: '×',
-				// 		reset: 'Avbryt',
-				// 		apply: 'Ok'
-				// 	}
-				// },
-				numberOfMonths: 2,
-				// selectForward: true,
-				// Minimal number of Days in range.
-				minDays: 3,
-				// maxDays: 7,
-				minDate: new Date(Date.now() + 24 * 60 * 60 * 1000),
-				// if footer, set autoclose to false
-				autoclose: true,
-				footer: true,
-				onSelect: function (startDate, endDate) {
-					if (startDate && endDate) {
-						jQuery(daterangeField).val(
-								startDate.format(dateFormat) + ' - ' + endDate.format(dateFormat)
-						).trigger( 'change' );
-					}
+			// https://wakirin.github.io/Litepicker/
+			var picker = new Litepicker(
+				{
+					element: daterangeField,
+					firstDay: drStartOfWeek,
+					singleMode: false,
+					format: drDateFormat,
+					disableWeekends: drDisableWeekends,
+					numberOfMonths: 2,
+					numberOfColumns: 2,
+					showWeekNumbers: drShowWeekNumbers,
+					selectBackward: drSelectBackward,
+					showTooltip: drToolTip,
+					tooltipText: {
+						one: drTooltipSingular,
+						other: drTooltipPlural
+					},
+					lang: lang
 				}
-			});
+				// {
+				// field: daterangeField,
+				// // first day of the week
+				// // 1 = Monday
+				// firstDay: 1,
+				// singleDate: false,
+				// format: dateFormat,
+				// separator: ' - ',
+
+				// // lang: 'nb',
+				// // locale : {
+				// // 	buttons: {
+				// // 		prev: '<',
+				// // 		next: '>',
+				// // 		close: '×',
+				// // 		reset: 'Avbryt',
+				// // 		apply: 'Ok'
+				// // 	}
+				// // },
+				// numberOfMonths: 2,
+				// // selectForward: true,
+				// // Minimal number of Days in range.
+				// minDays: 3,
+				// // maxDays: 7,
+				// minDate: new Date(Date.now() + 24 * 60 * 60 * 1000),
+				// // if footer, set autoclose to false
+				// autoclose: true,
+				// footer: true,
+				// onSelect: function (startDate, endDate) {
+				// 	if (startDate && endDate) {
+				// 		jQuery(daterangeField).val(
+				// 				startDate.format(dateFormat) + ' - ' + endDate.format(dateFormat)
+				// 		).trigger( 'change' );
+				// 	}
+				// }
+				// }
+			);
 		},
 		/**
 		 * from https://github.com/wpninjas/ninja-forms/blob/83cccc6815c98a7ef50ca62704b2661eb53dd3cc/assets/js/front-end/controllers/fieldDate.js#L77-L136

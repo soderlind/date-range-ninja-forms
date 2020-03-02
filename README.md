@@ -5,9 +5,9 @@
 **Donate link:** | https://soderlind.no/donate/
 **Tags:** | date
 **Requires at least:** | 4.9.8
-**Tested up to:** | 4.9.8
-**Stable tag:** | 0.0.1
-Requires PHP: | 7.0
+**Tested up to:** | 5.4
+**Stable tag:** | 0.0.4
+Requires PHP: | 7.2
 **License:** | GPLv2 or later
 **License URI:** | https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -16,7 +16,7 @@ Add a Date Range field to Ninja Forms.
 
 ## Description
 
-TBA
+Add a Date Range field to your Ninja Forms.
 
 
 ## Installation
@@ -38,6 +38,11 @@ TBA
 
 ## Changelog
 
+### 0.0.4
+
+* Replace Lightpick, no longer maintained, with [Litepicker](https://github.com/wakirin/Litepicker)
+
+
 ### 0.0.3
 
 * In Ninja Forms builder, select WP Settings date.
@@ -51,3 +56,16 @@ TBA
 * Initial release.
 
 
+## Credits
+
+Date Range field for Ninja Forms uses [Litepicker](https://github.com/wakirin/Litepicker). The Litepicker has a MIT licence and is Copyright 2019 [Rinat G](https://github.com/wakirin/).
+
+## Copyright and License
+
+Date Range field for Ninja Forms is copyright 2020 Per Soderlind
+
+Date Range field for Ninja Forms is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later version.
+
+Date Range field for Ninja Forms is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public License along with the Extension. If not, see http://www.gnu.org/licenses/.
