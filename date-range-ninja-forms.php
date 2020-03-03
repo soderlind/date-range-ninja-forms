@@ -12,7 +12,7 @@
  * Plugin URI: https://github.com/soderlind/date-range-ninja-forms
  * GitHub Plugin URI: https://github.com/soderlind/date-range-ninja-forms
  * Description: Add a Date Range field to your Ninja Forms.
- * Version:     0.0.4
+ * Version:     0.0.5
  * Author:      Per Soderlind
  * Author URI:  https://soderlind.no
  * Text Domain: date-range-ninja-forms
@@ -22,7 +22,7 @@
 
 namespace Soderlind\NinjaForms\DateRange;
 
-define('DR_VERSION_NUMBER', '0.0.4');
+define('DR_VERSION_NUMBER', '0.0.5');
 /**
  * Register Date Range field
  */
@@ -46,12 +46,13 @@ add_filter(
 			protected $_settings = [
 				'dr_date_format',
 				'dr_start_of_week',
+				'dr_tooltip_fieldset',
+				'dr_start_end_date_fieldset',
+				'dr_min_max_days_fieldset',
 				'dr_show_week_numbers',
 				'dr_disable_weekends',
 				'dr_select_backward',
-				'dr_tooltip',
-				'dr_tooltip_singular',
-				'dr_tooltip_plural',
+				'dr_select_forward',
 			]; // maps to the settings array, see the ninja_forms_field_settings filter below.
 
 			protected $_settings_exclude = [ 'default', 'input_limit_set', 'disable_input' ]; // remove noice
@@ -70,7 +71,6 @@ add_filter(
 			public function init() {
 				add_filter('ninja_forms_field_template_file_paths', [ $this, 'register_template_path' ]);
 				add_action('ninja_forms_enqueue_scripts', [ $this, 'scripts' ]);
-				add_action('wp_enqueue_scripts', [ $this, 'style' ]);
 			}
 
 			/**
@@ -88,32 +88,22 @@ add_filter(
 			/**
 			 * Enqueue scripts
 			 *
-			 * js/date-range.js connects the lightpick.js script with ninja forms
+			 * js/date-range.js connects the Litepicker script with ninja forms
 			 *
 			 * @return void
 			 */
 			public function scripts() {
-				// wp_enqueue_script( 'moment', '//cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment-with-locales.min.js', [ 'jquery' ], DR_VERSION_NUMBER, true );
 				wp_enqueue_script('lightpicker', '//cdn.jsdelivr.net/npm/litepicker/dist/js/main.js', [ 'jquery' ], DR_VERSION_NUMBER, true);
-				// wp_enqueue_script( 'lightpick', plugin_dir_url( __FILE__ ) . 'js/lightpick.js', [ 'moment' ], DR_VERSION_NUMBER, true );
 				wp_enqueue_script('date-range', plugin_dir_url(__FILE__) . 'js/date-range.js', [ 'lightpicker' ], DR_VERSION_NUMBER, true);
 				wp_localize_script(
 					'date-range', 'drDateRange', [
-						'dateFormat'  => get_option('date_format'),
-						'lang'        => apply_filters('dr_lang', get_locale()),
+						'dateFormat' => get_option('date_format'),
+						'lang'       => apply_filters('dr_lang', get_locale()),
+						'dropdowns'  => apply_filters( 'dr_dropdowns', [] ),
+						'buttontext' => apply_filters( 'dr_buttontext', [] ),
 					]
 				);
 			}
-
-			/**
-			 * Enqueue style
-			 *
-			 * @return void
-			 */
-			public function style() {
-				// wp_enqueue_style( 'lightpick', plugin_dir_url( __FILE__ ) . 'js/lightpick.css', [], DR_VERSION_NUMBER );
-			}
-
 		};
 
 		return $fields;
@@ -132,7 +122,7 @@ add_filter(
 			'name'    => 'dr_date_format',
 			'type'    => 'select',
 			'label'   => __('Date Format', 'date-range-ninja-forms'),
-			'width'   => 'full',
+			'width'   => 'one-half',
 			'group'   => 'primary',
 			'options' => [
 				[
@@ -182,20 +172,13 @@ add_filter(
 			],
 			'value'   => 'default',  // the initial selected value
 		];
-		/*
-		|--------------------------------------------------------------------------
-		| Advanced Settings
-		|--------------------------------------------------------------------------
-		|
-		| The least commonly used settings for a field.
-		*/
 
 		$settings['dr_start_of_week'] = [
 			'name'    => 'dr_start_of_week',
 			'type'    => 'select',
 			'label'   => __('Start of Week', 'date-range-ninja-forms'),
 			'width'   => 'one-half',
-			'group'   => 'advanced',
+			'group'   => 'primary',
 			'options' => [
 				[
 					'label' => __('Sunday', 'date-range-ninja-forms'),
@@ -229,6 +212,143 @@ add_filter(
 			'value'   => get_option('start_of_week'),  // the initial selected value
 		];
 
+		/*
+		|--------------------------------------------------------------------------
+		| Advanced Settings
+		|--------------------------------------------------------------------------
+		|
+		| The least commonly used settings for a field.
+		*/
+
+		$tooltip['dr_tooltip'] = [
+			'name'  => 'dr_tooltip',
+			'type'  => 'toggle',
+			'label' => esc_html__('Show Tool Tip', 'date-range-ninja-forms'),
+			'width' => 'one-third',
+			'group' => 'advanced',
+			'value' => false,
+		];
+
+		$tooltip['dr_tooltip_singular'] = [
+			'name'  => 'dr_tooltip_singular',
+			'type'  => 'textbox',
+			'label' => esc_html__('Singular', 'date-range-ninja-forms'),
+			// 'placeholder' => 'day',
+			'width' => 'one-third',
+			'group' => 'advanced',
+			'value' => 'day',
+			'deps'  => [
+				'dr_tooltip' => 1,
+			],
+		];
+
+		$tooltip['dr_tooltip_plural'] = [
+			'name'  => 'dr_tooltip_plural',
+			'type'  => 'textbox',
+			'label' => esc_html__('Plural', 'date-range-ninja-forms'),
+			// 'placeholder' => 'days',
+			'width' => 'one-third',
+			'group' => 'advanced',
+			'value' => 'days',
+			'deps'  => [
+				'dr_tooltip' => 1,
+			],
+		];
+
+		$settings['dr_tooltip_fieldset'] = [
+			'name'     => 'dr_tooltip_fieldset',
+			'type'     => 'fieldset',
+			'label'    => esc_html__('Tooltip', 'date-range-ninja-forms'),
+			'width'    => 'full',
+			'group'    => 'advanced',
+			'settings' => $tooltip,
+		];
+
+		$start_end['dr_start_end_date'] = [
+			'name'  => 'dr_start_end_date',
+			'type'  => 'toggle',
+			'label' => esc_html__('Enable Start / End Date', 'date-range-ninja-forms'),
+			'width' => 'one-third',
+			'group' => 'advanced',
+			'value' => false,
+		];
+
+		$start_end['dr_start_date'] = [
+			'name'  => 'dr_start_date',
+			'type'  => 'textbox',
+			'label' => esc_html__('Start Date', 'date-range-ninja-forms'),
+			'placeholder' => 'YYYYMMDD',
+			'width' => 'one-third',
+			'group' => 'advanced',
+			'value' => '',
+			'deps'  => [
+				'dr_start_end_date' => 1,
+			],
+		];
+		$start_end['dr_end_date'] = [
+			'name'  => 'dr_end_date',
+			'type'  => 'textbox',
+			'label' => esc_html__('End Date', 'date-range-ninja-forms'),
+			'placeholder' => 'YYYYMMDD',
+			'width' => 'one-third',
+			'group' => 'advanced',
+			'value' => '',
+			'deps'  => [
+				'dr_start_end_date' => 1,
+			],
+		];
+
+		$min_max['dr_min_max_days'] = [
+			'name'  => 'dr_min_max_days',
+			'type'  => 'toggle',
+			'label' => esc_html__('Enable Min / Max Days', 'date-range-ninja-forms'),
+			'width' => 'one-third',
+			'group' => 'advanced',
+			'value' => false,
+		];
+
+
+		$min_max['dr_min_days'] = [
+			'name'  => 'dr_min_days',
+			'type'  => 'number',
+			'label' => esc_html__('Minimum days', 'date-range-ninja-forms'),
+			'width' => 'one-third',
+			'group' => 'advanced',
+			'value' => '0',
+			'deps'  => [
+				'dr_min_max_days' => 1,
+			],
+		];
+		$min_max['dr_max_days'] = [
+			'name'  => 'dr_max_days',
+			'type'  => 'number',
+			'label' => esc_html__('Maximum Days', 'date-range-ninja-forms'),
+			'width' => 'one-third',
+			'group' => 'advanced',
+			'value' => '0',
+			'deps'  => [
+				'dr_min_max_days' => 1,
+			],
+		];
+
+		$settings['dr_start_end_date_fieldset'] = [
+			'name'     => 'dr_start_end_date_fieldset',
+			'type'     => 'fieldset',
+			'label'    => esc_html__('Set Start / End Date', 'date-range-ninja-forms'),
+			'width'    => 'full',
+			'group'    => 'advanced',
+			'settings' => $start_end,
+		];
+
+		$settings['dr_min_max_days_fieldset'] = [
+			'name'     => 'dr_min_max_days_fieldset',
+			'type'     => 'fieldset',
+			'label'    => esc_html__('Min Max Days Selected', 'date-range-ninja-forms'),
+			'width'    => 'full',
+			'group'    => 'advanced',
+			'settings' => $min_max,
+		];
+
 		$settings['dr_show_week_numbers'] = [
 			'name'  => 'dr_show_week_numbers',
 			'type'  => 'toggle',
@@ -256,40 +376,14 @@ add_filter(
 			'group' => 'advanced',
 			'value' => false,
 		];
-
-		$settings['dr_tooltip'] = [
-			'name'  => 'dr_tooltip',
+		$settings['dr_select_forward'] = [
+			'name'  => 'dr_select_forward',
 			'type'  => 'toggle',
-			'label' => esc_html__('Show Tool Tip', 'ninja-forms'),
+			'label' => esc_html__('Select Backward', 'date-range-ninja-forms'),
+			'help'  => esc_html__('Select second date after the first selected date.', 'date-range-ninja-forms'),
 			'width' => 'one-third',
 			'group' => 'advanced',
 			'value' => false,
-		];
-
-		$settings['dr_tooltip_singular'] = [
-			'name'  => 'dr_tooltip_singular',
-			'type'  => 'textbox',
-			'label' => esc_html__('Singular', 'ninja-forms'),
-			// 'placeholder' => 'day',
-			'width' => 'one-third',
-			'group' => 'advanced',
-			'value' => 'day',
-			'deps'  => [
-				'dr_tooltip' => 1,
-			],
-		];
-
-		$settings['dr_tooltip_plural'] = [
-			'name'  => 'dr_tooltip_plural',
-			'type'  => 'textbox',
-			'label' => esc_html__('Plural', 'ninja-forms'),
-			// 'placeholder' => 'days',
-			'width' => 'one-third',
-			'group' => 'advanced',
-			'value' => 'days',
-			'deps'  => [
-				'dr_tooltip' => 1,
-			],
 		];
 
 		return $settings;
