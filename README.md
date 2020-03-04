@@ -50,7 +50,7 @@ E.g. if using Polylang, add:
 ```php
 add_filter( 'date_range_lang', function( $locale ) {
 	if ( function_exists( 'pll_current_language' ) ) {
-		$lang = pll_current_language( 'locale' );
+		$locale = pll_current_language( 'locale' );
 	}
 	return $locale;
 } );
