@@ -47,7 +47,7 @@ add_filter(
 				'dr_date_format',
 				'dr_start_of_week',
 				'dr_tooltip_fieldset',
-				'dr_start_end_date_fieldset',
+				'dr_max_min_date_fieldset',
 				'dr_min_max_days_fieldset',
 				'dr_show_week_numbers',
 				'dr_disable_weekends',
@@ -95,6 +95,7 @@ add_filter(
 			 * @return void
 			 */
 			public function scripts() {
+				wp_enqueue_script('moment', '//cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js', [ 'jquery' ], DR_VERSION_NUMBER, true);
 				wp_enqueue_script('lightpicker', '//cdn.jsdelivr.net/npm/litepicker/dist/js/main.js', [ 'jquery' ], DR_VERSION_NUMBER, true);
 				wp_enqueue_script('date-range', plugin_dir_url(__FILE__) . 'js/date-range.js', [ 'lightpicker' ], DR_VERSION_NUMBER, true);
 				wp_localize_script(
@@ -239,7 +240,6 @@ add_filter(
 			'name'  => 'dr_tooltip_singular',
 			'type'  => 'textbox',
 			'label' => esc_html__('Singular', 'date-range-ninja-forms'),
-			// 'placeholder' => 'day',
 			'width' => 'one-third',
 			'group' => 'advanced',
 			'value' => 'day',
@@ -270,44 +270,46 @@ add_filter(
 			'settings' => $tooltip,
 		];
 
-		$start_end['dr_start_end_date'] = [
-			'name'  => 'dr_start_end_date',
+		$start_end['dr_max_min_date'] = [
+			'name'  => 'dr_max_min_date',
 			'type'  => 'toggle',
-			'label' => esc_html__('Enable Start / End Date', 'date-range-ninja-forms'),
+			'label' => esc_html__('Limit Range', 'date-range-ninja-forms'),
 			'width' => 'one-third',
 			'group' => 'advanced',
 			'value' => false,
 		];
 
-		$start_end['dr_start_date'] = [
-			'name'  => 'dr_start_date',
+		$start_end['dr_min_date'] = [
+			'name'  => 'dr_min_date',
 			'type'  => 'textbox',
 			'label' => esc_html__('Start Date', 'date-range-ninja-forms'),
-			'placeholder' => 'YYYYMMDD',
+			'help'  => esc_html__('The minimum/earliest date that can be selected.', 'date-range-ninja-forms'),
+			'placeholder' => 'YYYY-MM-DD',
 			'width' => 'one-third',
 			'group' => 'advanced',
 			'value' => '',
 			'deps'  => [
-				'dr_start_end_date' => 1,
+				'dr_max_min_date' => 1,
 			],
 		];
-		$start_end['dr_end_date'] = [
-			'name'  => 'dr_end_date',
+		$start_end['dr_max_date'] = [
+			'name'  => 'dr_max_date',
 			'type'  => 'textbox',
 			'label' => esc_html__('End Date', 'date-range-ninja-forms'),
-			'placeholder' => 'YYYYMMDD',
+			'help'  => esc_html__('The maximum/latest date that can be selected.', 'date-range-ninja-forms'),
+			'placeholder' => 'YYYY-MM-DD',
 			'width' => 'one-third',
 			'group' => 'advanced',
 			'value' => '',
 			'deps'  => [
-				'dr_start_end_date' => 1,
+				'dr_max_min_date' => 1,
 			],
 		];
 
 		$min_max['dr_min_max_days'] = [
 			'name'  => 'dr_min_max_days',
 			'type'  => 'toggle',
-			'label' => esc_html__('Enable Min / Max Days', 'date-range-ninja-forms'),
+			'label' => esc_html__('Set Min / Max Days', 'date-range-ninja-forms'),
 			'width' => 'one-third',
 			'group' => 'advanced',
 			'value' => false,
@@ -318,6 +320,7 @@ add_filter(
 			'name'  => 'dr_min_days',
 			'type'  => 'number',
 			'label' => esc_html__('Minimum days', 'date-range-ninja-forms'),
+			'help'  => esc_html__('The minimum days of the selected range.', 'date-range-ninja-forms'),
 			'width' => 'one-third',
 			'group' => 'advanced',
 			'value' => '0',
@@ -329,6 +332,7 @@ add_filter(
 			'name'  => 'dr_max_days',
 			'type'  => 'number',
 			'label' => esc_html__('Maximum Days', 'date-range-ninja-forms'),
+			'help'  => esc_html__('The maximum days of the selected range.', 'date-range-ninja-forms'),
 			'width' => 'one-third',
 			'group' => 'advanced',
 			'value' => '0',
@@ -337,10 +341,10 @@ add_filter(
 			],
 		];
 
-		$settings['dr_start_end_date_fieldset'] = [
-			'name'     => 'dr_start_end_date_fieldset',
+		$settings['dr_max_min_date_fieldset'] = [
+			'name'     => 'dr_max_min_date_fieldset',
 			'type'     => 'fieldset',
-			'label'    => esc_html__('Set Start / End Date', 'date-range-ninja-forms'),
+			'label'    => esc_html__('Control date range', 'date-range-ninja-forms'),
 			'width'    => 'full',
 			'group'    => 'advanced',
 			'settings' => $start_end,
@@ -349,7 +353,7 @@ add_filter(
 		$settings['dr_min_max_days_fieldset'] = [
 			'name'     => 'dr_min_max_days_fieldset',
 			'type'     => 'fieldset',
-			'label'    => esc_html__('Min Max Days Selected', 'date-range-ninja-forms'),
+			'label'    => esc_html__('Number of days', 'date-range-ninja-forms'),
 			'width'    => 'full',
 			'group'    => 'advanced',
 			'settings' => $min_max,
@@ -385,7 +389,7 @@ add_filter(
 		$settings['dr_select_forward'] = [
 			'name'  => 'dr_select_forward',
 			'type'  => 'toggle',
-			'label' => esc_html__('Select Backward', 'date-range-ninja-forms'),
+			'label' => esc_html__('Select Forward', 'date-range-ninja-forms'),
 			'help'  => esc_html__('Select second date after the first selected date.', 'date-range-ninja-forms'),
 			'width' => 'one-third',
 			'group' => 'advanced',
