@@ -1,4 +1,8 @@
 # Date Range field for Ninja Forms
+[Description](#description) | [Installation](#nstallation) | [Screenshots](#screenshots) | [Filters](#filters) | [Changelog](#changelog)
+
+
+
 &nbsp; | &nbsp;
 ------------ | -------------
 **Contributors:** | PerS
@@ -39,7 +43,7 @@ Add a Date Range field to your Ninja Forms.
 
 ## Filters
 
-Add the filters to your child themes functions.php
+Add the filters to your child theme functions.php
 
 ### `date_range_lang`
 
