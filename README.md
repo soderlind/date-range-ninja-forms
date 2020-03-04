@@ -28,15 +28,80 @@ Add a Date Range field to your Ninja Forms.
 
 ## Screenshots
 
-### 1. Using Ninja Forms to add the Date Range field.
-<img src="assets/screenshot-1.gif" />
+### 1. Settings
+<img src="assets/screenshot-1.png" />
 
-### 2. Date Range at the front-end.
+### 2. Using Ninja Forms to add the Date Range field.
 <img src="assets/screenshot-2.gif" />
 
+### 3. Date Range at the front-end.
+<img src="assets/screenshot-3.gif" />
 
+## Filters
+
+Add the filters to your child themes functions.php
+
+### `date_range_lang`
+
+Override the value returned from get_locale().
+
+E.g. if using Polylang, add:
+
+```php
+add_filter( 'date_range_lang', function( $locale ) {
+	if ( function_exists( 'pll_current_language' ) ) {
+		$lang = pll_current_language( 'locale' );
+	}
+	return $locale;
+} );
+```
+
+### `date_range_dropdowns`
+
+Enable dropdowns for months, years.
+
+If `maxYear` is `null` then `maxYear` will be equal to `(new Date()).getFullYear()`.
+
+```php
+add_filter( 'date_range_dropdowns', function( $dropdowns ) {
+
+	$dropdowns = [
+		'minYear' => 2020,
+		'maxYear' => 2030,
+		'months'  => false,
+		'years'   => true, // show dropdown for years.
+	];
+
+	return $dropdowns;
+} );
+```
+
+### `date_range_buttontext`
+
+Text for buttons.
+
+```php
+add_filter( 'date_range_buttontext', function( $buttontext ) {
+
+	$buttontext = [
+		'apply'         => 'Apply',
+		'cancel'        => 'Cancel',
+		'previousMonth' => '<svg .../></svg>',
+		'nextMonth'     => '<svg .../></svg>',
+	];
+
+	return $buttontext;
+} );
+```
 
 ## Changelog
+
+### 0.0.5
+
+* Add more settings.
+* Add [filters](#filters): `date_range_lang`, `date_range_dropdowns` and `date_range_buttontext`.
+* Add `languages/date-range-ninja-forms.pot`
+
 
 ### 0.0.4
 
