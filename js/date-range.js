@@ -28,6 +28,7 @@
 			var drDisableWeekends = view.model.get('dr_disable_weekends');
 			var drSelectBackward = view.model.get('dr_select_backward');
 			var drSelectForward = view.model.get('dr_select_forward');
+			var drAutoApply = view.model.get('dr_auto_apply');
 			var drToolTip = view.model.get('dr_tooltip');
 			var drTooltipSingular = view.model.get('dr_tooltip_singular');
 			var drTooltipSingular = view.model.get('dr_tooltip_singular');
@@ -52,14 +53,9 @@
 			try {
 				Intl.getCanonicalLocales(lang);
 			} catch (error) {
-				console.error(error)
+				console.error('Invalid date format: %s, should look something like this: en-US', lang);
 				let lang = 'en-US';
 			}
-			/**
-			 * Note, you can replace the code below with your own date range plugin. If
-			 * you do, remeber to load needed libraries using wp_enqueue_script/style in
-			 * date-range-ninja-forms-php
-			 */
 
 			const litepickerConfig = {
 				element: daterangeField,
@@ -73,6 +69,7 @@
 				selectBackward: drSelectBackward,
 				selectForward: drSelectForward,
 				showTooltip: drToolTip,
+				autoApply: drAutoApply,
 				lang: lang,
 			};
 

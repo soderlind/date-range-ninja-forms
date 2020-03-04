@@ -12,7 +12,7 @@
  * Plugin URI: https://github.com/soderlind/date-range-ninja-forms
  * GitHub Plugin URI: https://github.com/soderlind/date-range-ninja-forms
  * Description: Add a Date Range field to your Ninja Forms.
- * Version:     0.0.5
+ * Version:     0.0.6
  * Author:      Per Soderlind
  * Author URI:  https://soderlind.no
  * Text Domain: date-range-ninja-forms
@@ -22,7 +22,7 @@
 
 namespace Soderlind\NinjaForms\DateRange;
 
-define('DR_VERSION_NUMBER', '0.0.5');
+define('DR_VERSION_NUMBER', '0.0.6');
 /**
  * Register Date Range field
  */
@@ -53,6 +53,7 @@ add_filter(
 				'dr_disable_weekends',
 				'dr_select_backward',
 				'dr_select_forward',
+				'dr_auto_apply',
 			]; // maps to the settings array, see the ninja_forms_field_settings filter below.
 
 			protected $_settings_exclude = [ 'default', 'input_limit_set', 'disable_input' ]; // remove noice
@@ -394,6 +395,15 @@ add_filter(
 			'width' => 'one-third',
 			'group' => 'advanced',
 			'value' => false,
+		];
+		$settings['dr_auto_apply'] = [
+			'name'  => 'dr_auto_apply',
+			'type'  => 'toggle',
+			'label' => esc_html__('Auto Apply', 'date-range-ninja-forms'),
+			'help'  => esc_html__('When enabled, hide the apply and cancel buttons, and automatically apply a new date range as soon as two dates are clicked.', 'date-range-ninja-forms'),
+			'width' => 'one-third',
+			'group' => 'advanced',
+			'value' => true,
 		];
 
 		return $settings;
