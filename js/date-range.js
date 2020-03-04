@@ -22,28 +22,38 @@
 		 * When rendering the form (i.e. the view), attach custom javascript code and events.
 		 */
 		renderView: function (view) {
-			var drDateFormat = view.model.get('dr_date_format'); // get setting
-			var drShowWeekNumbers = view.model.get('dr_show_week_numbers'); // get setting
-			var drStartOfWeek = view.model.get('dr_start_of_week'); // get setting
-			var drDisableWeekends = view.model.get('dr_disable_weekends'); // get setting
-			var drSelectBackward = view.model.get('dr_select_backward'); // get setting
-			var drToolTip = view.model.get('dr_tooltip'); // get setting
-			var drTooltipSingular = view.model.get('dr_tooltip_singular'); // get setting
-			var drTooltipSingular = view.model.get('dr_tooltip_singular'); // get setting
-			var drTooltipPlural = view.model.get('dr_tooltip_plural'); // get setting
+			var drDateFormat = view.model.get('dr_date_format');
+			var drShowWeekNumbers = view.model.get('dr_show_week_numbers');
+			var drStartOfWeek = view.model.get('dr_start_of_week');
+			var drDisableWeekends = view.model.get('dr_disable_weekends');
+			var drSelectBackward = view.model.get('dr_select_backward');
+			var drSelectForward = view.model.get('dr_select_forward');
+			var drToolTip = view.model.get('dr_tooltip');
+			var drTooltipSingular = view.model.get('dr_tooltip_singular');
+			var drTooltipSingular = view.model.get('dr_tooltip_singular');
+			var drTooltipPlural = view.model.get('dr_tooltip_plural');
+			var drMinMaxDate = view.model.get('dr_start_end_date');
+			var drMinMaxDateStart = view.model.get('dr_min_date');
+			var drMinMaxDateEnd = view.model.get('dr_max_date');
+			var drMinMaxDays = view.model.get('dr_min_max_days');
+			var drMinMaxDaysMin = view.model.get('dr_min_days');
+			var drMinMaxDaysMax = view.model.get('dr_max_days');
+
+
 
 			// For "default" date format, convert PHP format to JS compatible format.
 			if ('' == drDateFormat || 'default' == drDateFormat) {
 				drDateFormat = this.convertDateFormat(drDateRange.dateFormat); // 'drDateRange' from wp_localize in date-range-ninja-forms.php
 			}
-			var daterangeField = $(view.el).find('.daterange')[0];
 
-			var lang = drDateRange.lang.replace('_', '-');
+			let daterangeField = $(view.el).find('.daterange')[0];
+
+			let lang = drDateRange.lang.replace('_', '-');
 			try {
 				Intl.getCanonicalLocales(lang);
 			} catch (error) {
 				console.error(error)
-				var lang = 'en-US';
+				let lang = 'en-US';
 			}
 			/**
 			 * Note, you can replace the code below with your own date range plugin. If
@@ -51,26 +61,75 @@
 			 * date-range-ninja-forms-php
 			 */
 
-			// https://wakirin.github.io/Litepicker/
-			var picker = new Litepicker(
-				{
-					element: daterangeField,
-					firstDay: drStartOfWeek,
-					singleMode: false,
-					format: drDateFormat,
-					disableWeekends: drDisableWeekends,
-					numberOfMonths: 2,
-					numberOfColumns: 2,
-					showWeekNumbers: drShowWeekNumbers,
-					selectBackward: drSelectBackward,
-					showTooltip: drToolTip,
-					tooltipText: {
-						one: drTooltipSingular,
-						other: drTooltipPlural
-					},
-					lang: lang
+			const litepickerConfig = {
+				element: daterangeField,
+				firstDay: drStartOfWeek,
+				singleMode: false,
+				format: drDateFormat,
+				disableWeekends: drDisableWeekends,
+				numberOfMonths: 2,
+				numberOfColumns: 2,
+				showWeekNumbers: drShowWeekNumbers,
+				selectBackward: drSelectBackward,
+				selectForward: drSelectForward,
+				showTooltip: drToolTip,
+				lang: lang,
+			};
+
+			if (drToolTip !== false) {
+				litepickerConfig.tooltipText = {
+					one: drTooltipSingular,
+					other: drTooltipPlural
+				};
+			}
+
+			if (drMinMaxDate !== false) {
+				if (typeof drMinMaxDateStart !== 'undefined' && drMinMaxDateStart !== '') {
+
+					minDate = moment(drMinMaxDateStart, 'YYYY-MM-YY', true).format();
+					if (minDate !== 'Invalid date') {
+						litepickerConfig.minDate = minDate;
+					} else {
+						console.error('Invalid date format: %s  Valid is YYYY-MM-YY. E.g.: 2020-02-29', drMinMaxDateStart);
+					}
 				}
-			);
+			}
+
+			if (drMinMaxDate !== false) {
+				if (typeof drMinMaxDateEnd !== 'undefined' && drMinMaxDateEnd !== '') {
+					maxDate = moment(drMinMaxDateEnd, 'YYYY-MM-YY', true).format();
+					if (maxDate !== 'Invalid date') {
+						litepickerConfig.maxDate = maxDate;
+					} else {
+						console.error('Invalid date format: %s Valid is YYYY-MM-YY. E.g.: 2020-02-29', drMinMaxDateEnd);
+					}
+				}
+			}
+
+			if (drMinMaxDays !== false) {
+				if (typeof drMinMaxDaysMin !== 'undefined' && drMinMaxDaysMin !== '' && drMinMaxDaysMin > 0) {
+					litepickerConfig.minDays = drMinMaxDaysMin - 1;
+				}
+			}
+			if (drMinMaxDays !== false) {
+				if (typeof drMinMaxDaysMax !== 'undefined' && drMinMaxDaysMax !== '' && drMinMaxDaysMax > 0) {
+					litepickerConfig.maxDays = drMinMaxDaysMax - 1;
+				}
+			}
+
+
+			if (typeof drDateRange.dropdowns !== 'undefined' && drDateRange.dropdowns !== '[]') {
+				litepickerConfig.dropdowns = drDateRange.dropdowns;
+			}
+
+			if (typeof drDateRange.buttontext !== 'undefined' && drDateRange.buttontext !== '[]') {
+				litepickerConfig.buttonText = drDateRange.buttontext;
+			}
+
+
+
+			// https://wakirin.github.io/Litepicker/
+			const picker = new Litepicker(litepickerConfig);
 		},
 		/**
 		 * from https://github.com/wpninjas/ninja-forms/blob/83cccc6815c98a7ef50ca62704b2661eb53dd3cc/assets/js/front-end/controllers/fieldDate.js#L77-L136
@@ -138,4 +197,6 @@
 	});
 
 	new selectedHTML();
+
 })(jQuery)
+
