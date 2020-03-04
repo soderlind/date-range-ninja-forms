@@ -96,6 +96,10 @@ add_filter( 'date_range_buttontext', function( $buttontext ) {
 
 ## Changelog
 
+### 0.0.6
+
+* Fix breaking bug
+
 ### 0.0.5
 
 * Add more settings.
