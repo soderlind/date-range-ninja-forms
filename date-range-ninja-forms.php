@@ -308,7 +308,7 @@ add_filter(
 			'name'  => 'dr_max_date',
 			'type'  => 'textbox',
 			'label' => esc_html__('End Date', 'date-range-ninja-forms'),
-			'help'  => esc_html__('The maximum/latest date that can be selected.', 'date-range-ninja-forms'),
+			'help'  => esc_html__('The maximum/latest date that can be selected. Leave blank if indefinite.', 'date-range-ninja-forms'),
 			'placeholder' => 'YYYY-MM-DD',
 			'width' => 'one-third',
 			'group' => 'advanced',

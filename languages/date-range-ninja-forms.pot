@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 "Project-Id-Version: Date Range field for Ninja Forms\n"
-"POT-Creation-Date: 2020-03-04 16:43+0100\n"
+"POT-Creation-Date: 2020-03-05 00:13+0100\n"
 "PO-Revision-Date: 2020-03-04 10:46+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -21,137 +21,148 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: *.min.js\n"
 
-#: date-range-ninja-forms.php:63
+#: date-range-ninja-forms.php:75
 msgid "Date Range"
 msgstr ""
 
-#: date-range-ninja-forms.php:131
+#: date-range-ninja-forms.php:143
 msgid "Date Format"
 msgstr ""
 
-#: date-range-ninja-forms.php:136
+#: date-range-ninja-forms.php:148
 #, php-format
 msgid "WP Settings (%s)"
 msgstr ""
 
-#: date-range-ninja-forms.php:186
+#: date-range-ninja-forms.php:198
 msgid "Start of Week"
 msgstr ""
 
-#: date-range-ninja-forms.php:191
+#: date-range-ninja-forms.php:203
 msgid "Sunday"
 msgstr ""
 
-#: date-range-ninja-forms.php:195
+#: date-range-ninja-forms.php:207
 msgid "Monday"
 msgstr ""
 
-#: date-range-ninja-forms.php:199
+#: date-range-ninja-forms.php:211
 msgid "Tuesday"
 msgstr ""
 
-#: date-range-ninja-forms.php:203
+#: date-range-ninja-forms.php:215
 msgid "Wednesday"
 msgstr ""
 
-#: date-range-ninja-forms.php:207
+#: date-range-ninja-forms.php:219
 msgid "Thursday"
 msgstr ""
 
-#: date-range-ninja-forms.php:211
+#: date-range-ninja-forms.php:223
 msgid "Friday"
 msgstr ""
 
-#: date-range-ninja-forms.php:215
+#: date-range-ninja-forms.php:227
 msgid "Saturday"
 msgstr ""
 
-#: date-range-ninja-forms.php:233
+#: date-range-ninja-forms.php:245
 msgid "Show Tool Tip"
 msgstr ""
 
-#: date-range-ninja-forms.php:242
+#: date-range-ninja-forms.php:254
 msgid "Singular"
 msgstr ""
 
-#: date-range-ninja-forms.php:254
+#: date-range-ninja-forms.php:266
 msgid "Plural"
 msgstr ""
 
-#: date-range-ninja-forms.php:267
+#: date-range-ninja-forms.php:279
 msgid "Tooltip"
 msgstr ""
 
-#: date-range-ninja-forms.php:276
+#: date-range-ninja-forms.php:288
 msgid "Limit Range"
 msgstr ""
 
-#: date-range-ninja-forms.php:285
+#: date-range-ninja-forms.php:297
 msgid "Start Date"
 msgstr ""
 
-#: date-range-ninja-forms.php:286
+#: date-range-ninja-forms.php:298
 msgid "The minimum/earliest date that can be selected."
 msgstr ""
 
-#: date-range-ninja-forms.php:298
+#: date-range-ninja-forms.php:310
 msgid "End Date"
 msgstr ""
 
-#: date-range-ninja-forms.php:299
-msgid "The maximum/latest date that can be selected."
+#: date-range-ninja-forms.php:311
+msgid ""
+"The maximum/latest date that can be selected. Leave blank if indefinite."
 msgstr ""
 
-#: date-range-ninja-forms.php:312
+#: date-range-ninja-forms.php:324
 msgid "Set Min / Max Days"
 msgstr ""
 
-#: date-range-ninja-forms.php:322
+#: date-range-ninja-forms.php:334
 msgid "Minimum days"
 msgstr ""
 
-#: date-range-ninja-forms.php:323
+#: date-range-ninja-forms.php:335
 msgid "The minimum days of the selected range."
 msgstr ""
 
-#: date-range-ninja-forms.php:334
+#: date-range-ninja-forms.php:346
 msgid "Maximum Days"
 msgstr ""
 
-#: date-range-ninja-forms.php:335
+#: date-range-ninja-forms.php:347
 msgid "The maximum days of the selected range."
 msgstr ""
 
-#: date-range-ninja-forms.php:347
+#: date-range-ninja-forms.php:359
 msgid "Control date range"
 msgstr ""
 
-#: date-range-ninja-forms.php:356
+#: date-range-ninja-forms.php:368
 msgid "Number of days"
 msgstr ""
 
-#: date-range-ninja-forms.php:365
+#: date-range-ninja-forms.php:377
 msgid "Show Week Numbers"
 msgstr ""
 
-#: date-range-ninja-forms.php:374
+#: date-range-ninja-forms.php:386
 msgid "Disable Weekends"
 msgstr ""
 
-#: date-range-ninja-forms.php:383
+#: date-range-ninja-forms.php:395
 msgid "Select Backward"
 msgstr ""
 
-#: date-range-ninja-forms.php:384
+#: date-range-ninja-forms.php:396
 msgid "Select second date before the first selected date."
 msgstr ""
 
-#: date-range-ninja-forms.php:392
+#: date-range-ninja-forms.php:405
 msgid "Select Forward"
 msgstr ""
 
-#: date-range-ninja-forms.php:393
+#: date-range-ninja-forms.php:406
 msgid "Select second date after the first selected date."
+msgstr ""
+
+#: date-range-ninja-forms.php:415
+msgid "Auto Apply"
+msgstr ""
+
+#: date-range-ninja-forms.php:416
+msgid ""
+"When enabled, hide the apply and cancel buttons, and automatically apply a "
+"new date range as soon as two dates are clicked."
 msgstr ""
 
 #. Plugin Name of the plugin/theme
