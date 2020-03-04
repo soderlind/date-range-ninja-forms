@@ -47,13 +47,24 @@ add_filter(
 				'dr_date_format',
 				'dr_start_of_week',
 				'dr_tooltip_fieldset',
+				'dr_tooltip',
+				'dr_tooltip_singular',
+				'dr_tooltip_singular',
+				'dr_tooltip_plural',
+				'dr_min_max_days',
 				'dr_max_min_date_fieldset',
+				'dr_min_max_date',
+				'dr_min_date',
+				'dr_max_date',
 				'dr_min_max_days_fieldset',
+				'dr_min_max_days',
+				'dr_min_days',
+				'dr_max_days',
 				'dr_show_week_numbers',
 				'dr_disable_weekends',
 				'dr_select_backward',
 				'dr_select_forward',
-				'dr_auto_apply',
+				'dr_auto_apply'
 			]; // maps to the settings array, see the ninja_forms_field_settings filter below.
 
 			protected $_settings_exclude = [ 'default', 'input_limit_set', 'disable_input' ]; // remove noice
@@ -66,6 +77,7 @@ add_filter(
 			}
 
 			public function process( $field, $data ) {
+				write_log(  $field );
 				return $data;
 			}
 
@@ -96,8 +108,7 @@ add_filter(
 			 * @return void
 			 */
 			public function scripts() {
-				wp_enqueue_script('moment', '//cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js', [ 'jquery' ], DR_VERSION_NUMBER, true);
-				wp_enqueue_script('lightpicker', '//cdn.jsdelivr.net/npm/litepicker/dist/js/main.js', [ 'jquery' ], DR_VERSION_NUMBER, true);
+				wp_enqueue_script('lightpicker', '//cdn.jsdelivr.net/npm/litepicker/dist/js/main.js', [ 'moment' ], DR_VERSION_NUMBER, true);
 				wp_enqueue_script('date-range', plugin_dir_url(__FILE__) . 'js/date-range.js', [ 'lightpicker' ], DR_VERSION_NUMBER, true);
 				wp_localize_script(
 					'date-range', 'drDateRange', [
@@ -277,7 +288,7 @@ add_filter(
 			'label' => esc_html__('Limit Range', 'date-range-ninja-forms'),
 			'width' => 'one-third',
 			'group' => 'advanced',
-			'value' => false,
+			'value' => 0,
 		];
 
 		$start_end['dr_min_date'] = [
@@ -313,7 +324,7 @@ add_filter(
 			'label' => esc_html__('Set Min / Max Days', 'date-range-ninja-forms'),
 			'width' => 'one-third',
 			'group' => 'advanced',
-			'value' => false,
+			'value' => 0,
 		];
 
 
@@ -366,7 +377,7 @@ add_filter(
 			'label' => esc_html__('Show Week Numbers', 'date-range-ninja-forms'),
 			'width' => 'one-third',
 			'group' => 'advanced',
-			'value' => false,
+			'value' => 0,
 		];
 
 		$settings['dr_disable_weekends'] = [
@@ -375,7 +386,7 @@ add_filter(
 			'label' => esc_html__('Disable Weekends', 'date-range-ninja-forms'),
 			'width' => 'one-third',
 			'group' => 'advanced',
-			'value' => false,
+			'value' => 0,
 		];
 
 		$settings['dr_select_backward'] = [
@@ -385,8 +396,9 @@ add_filter(
 			'help'  => esc_html__('Select second date before the first selected date.', 'date-range-ninja-forms'),
 			'width' => 'one-third',
 			'group' => 'advanced',
-			'value' => false,
+			'value' => 0,
 		];
+
 		$settings['dr_select_forward'] = [
 			'name'  => 'dr_select_forward',
 			'type'  => 'toggle',
@@ -394,8 +406,9 @@ add_filter(
 			'help'  => esc_html__('Select second date after the first selected date.', 'date-range-ninja-forms'),
 			'width' => 'one-third',
 			'group' => 'advanced',
-			'value' => false,
+			'value' => 0,
 		];
+
 		$settings['dr_auto_apply'] = [
 			'name'  => 'dr_auto_apply',
 			'type'  => 'toggle',
@@ -403,9 +416,32 @@ add_filter(
 			'help'  => esc_html__('When enabled, hide the apply and cancel buttons, and automatically apply a new date range as soon as two dates are clicked.', 'date-range-ninja-forms'),
 			'width' => 'one-third',
 			'group' => 'advanced',
-			'value' => true,
+			'value' => 1,
 		];
 
 		return $settings;
 	}
 );
+
+
+//phpcs:disable
+if ( ! function_exists( 'write_log' ) ) {
+	/**
+	* Utility function for logging arbitrary variables to the error log.
+	*
+	* Set the constant WP_DEBUG to true and the constant WP_DEBUG_LOG to true to log to wp-content/debug.log.
+	* You can view the log in realtime in your terminal by executing `tail -f debug.log` and Ctrl+C to stop.
+	*
+	* @param mixed $log Whatever to log.
+	*/
+	function write_log( $log ) {
+		if ( true === WP_DEBUG ) {
+			if ( is_scalar( $log ) ) {
+				error_log( $log );
+			} else {
+				error_log( print_r( $log, true ) );
+			}
+		}
+	}
+}
+//phpcs:enable
