@@ -71,6 +71,8 @@ add_filter(
 			public function init() {
 				add_filter('ninja_forms_field_template_file_paths', [ $this, 'register_template_path' ]);
 				add_action('ninja_forms_enqueue_scripts', [ $this, 'scripts' ]);
+				add_action('init', [ $this, 'load_textdomain' ] );
+
 			}
 
 			/**
@@ -98,11 +100,15 @@ add_filter(
 				wp_localize_script(
 					'date-range', 'drDateRange', [
 						'dateFormat' => get_option('date_format'),
-						'lang'       => apply_filters('dr_lang', get_locale()),
-						'dropdowns'  => apply_filters( 'dr_dropdowns', [] ),
-						'buttontext' => apply_filters( 'dr_buttontext', [] ),
+						'lang'       => apply_filters( 'date_range_lang', get_locale()),
+						'dropdowns'  => apply_filters( 'date_range_dropdowns', wp_json_encode( [] ) ),
+						'buttontext' => apply_filters( 'date_range_buttontext', wp_json_encode( [] ) ),
 					]
 				);
+			}
+
+			public function load_textdomain() {
+				load_plugin_textdomain( 'date-range-ninja-forms', false, dirname( plugin_basename(__FILE__) ) . '/languages' );
 			}
 		};
 
@@ -130,43 +136,43 @@ add_filter(
 					'value' => 'default',
 				],
 				[
-					'label' => __('m/d/Y', 'date-range-ninja-forms'),
+					'label' => 'm/d/Y',
 					'value' => 'MM/DD/YYYY',
 				],
 				[
-					'label' => __('m-d-Y', 'date-range-ninja-forms'),
+					'label' => 'm-d-Y',
 					'value' => 'MM-DD-YYYY',
 				],
 				[
-					'label' => __('m.d.Y', 'date-range-ninja-forms'),
+					'label' => 'm.d.Y',
 					'value' => 'MM.DD.YYYY',
 				],
 				[
-					'label' => __('d/m/Y', 'date-range-ninja-forms'),
+					'label' => 'd/m/Y',
 					'value' => 'DD/MM/YYYY',
 				],
 				[
-					'label' => __('d-m-Y', 'date-range-ninja-forms'),
+					'label' => 'd-m-Y',
 					'value' => 'DD-MM-YYYY',
 				],
 				[
-					'label' => __('d.m.Y', 'date-range-ninja-forms'),
+					'label' => 'd.m.Y',
 					'value' => 'DD.MM.YYYY',
 				],
 				[
-					'label' => __('Y-m-d', 'date-range-ninja-forms'),
+					'label' => 'Y-m-d',
 					'value' => 'YYYY-MM-DD',
 				],
 				[
-					'label' => __('Y/m/d', 'date-range-ninja-forms'),
+					'label' => 'Y/m/d',
 					'value' => 'YYYY/MM/DD',
 				],
 				[
-					'label' => __('Y.m.d', 'date-range-ninja-forms'),
+					'label' => 'Y.m.d',
 					'value' => 'YYYY.MM.DD',
 				],
 				[
-					'label' => __('l, F d Y', 'date-range-ninja-forms'),
+					'label' => 'l, F d Y',
 					'value' => 'dddd, MMMM D YYYY',
 				],
 			],

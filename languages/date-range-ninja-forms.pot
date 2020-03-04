@@ -1,0 +1,155 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"Project-Id-Version: Date Range field for Ninja Forms\n"
+"POT-Creation-Date: 2020-03-04 10:50+0100\n"
+"PO-Revision-Date: 2020-03-04 10:46+0100\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.3\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-Flags-xgettext: --add-comments=translators:\n"
+"X-Poedit-WPHeader: date-range-ninja-forms.php\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
+"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
+"_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.min.js\n"
+
+#: date-range-ninja-forms.php:63
+msgid "Date Range"
+msgstr ""
+
+#: date-range-ninja-forms.php:130
+msgid "Date Format"
+msgstr ""
+
+#: date-range-ninja-forms.php:135
+#, php-format
+msgid "WP Settings (%s)"
+msgstr ""
+
+#: date-range-ninja-forms.php:185
+msgid "Start of Week"
+msgstr ""
+
+#: date-range-ninja-forms.php:190
+msgid "Sunday"
+msgstr ""
+
+#: date-range-ninja-forms.php:194
+msgid "Monday"
+msgstr ""
+
+#: date-range-ninja-forms.php:198
+msgid "Tuesday"
+msgstr ""
+
+#: date-range-ninja-forms.php:202
+msgid "Wednesday"
+msgstr ""
+
+#: date-range-ninja-forms.php:206
+msgid "Thursday"
+msgstr ""
+
+#: date-range-ninja-forms.php:210
+msgid "Friday"
+msgstr ""
+
+#: date-range-ninja-forms.php:214
+msgid "Saturday"
+msgstr ""
+
+#: date-range-ninja-forms.php:232
+msgid "Show Tool Tip"
+msgstr ""
+
+#: date-range-ninja-forms.php:241
+msgid "Singular"
+msgstr ""
+
+#: date-range-ninja-forms.php:254
+msgid "Plural"
+msgstr ""
+
+#: date-range-ninja-forms.php:267
+msgid "Tooltip"
+msgstr ""
+
+#: date-range-ninja-forms.php:276
+msgid "Enable Start / End Date"
+msgstr ""
+
+#: date-range-ninja-forms.php:285
+msgid "Start Date"
+msgstr ""
+
+#: date-range-ninja-forms.php:297
+msgid "End Date"
+msgstr ""
+
+#: date-range-ninja-forms.php:310
+msgid "Enable Min / Max Days"
+msgstr ""
+
+#: date-range-ninja-forms.php:320
+msgid "Minimum days"
+msgstr ""
+
+#: date-range-ninja-forms.php:331
+msgid "Maximum Days"
+msgstr ""
+
+#: date-range-ninja-forms.php:343
+msgid "Set Start / End Date"
+msgstr ""
+
+#: date-range-ninja-forms.php:352
+msgid "Min Max Days Selected"
+msgstr ""
+
+#: date-range-ninja-forms.php:361
+msgid "Show Week Numbers"
+msgstr ""
+
+#: date-range-ninja-forms.php:370
+msgid "Disable Weekends"
+msgstr ""
+
+#: date-range-ninja-forms.php:379 date-range-ninja-forms.php:388
+msgid "Select Backward"
+msgstr ""
+
+#: date-range-ninja-forms.php:380
+msgid "Select second date before the first selected date."
+msgstr ""
+
+#: date-range-ninja-forms.php:389
+msgid "Select second date after the first selected date."
+msgstr ""
+
+#. Plugin Name of the plugin/theme
+msgid "Date Range field for Ninja Forms"
+msgstr ""
+
+#. Plugin URI of the plugin/theme
+msgid "https://github.com/soderlind/date-range-ninja-forms"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid "Add a Date Range field to your Ninja Forms."
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "Per Soderlind"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "https://soderlind.no"
+msgstr ""
