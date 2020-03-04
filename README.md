@@ -1,5 +1,5 @@
 # Date Range field for Ninja Forms
-[Description](#description) | [Installation](#nstallation) | [Screenshots](#screenshots) | [Filters](#filters) | [Changelog](#changelog)
+[Description](#description) | [Installation](#nstallation) | [Screenshots](#screenshots) | [Filters](#filters) | [Changelog](#changelog) | [Credits](#credits) | [Copyright and License](#copyright-and-license)
 
 
 
