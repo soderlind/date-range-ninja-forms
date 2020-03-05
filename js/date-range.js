@@ -2,44 +2,43 @@
  * Thanks to https://ninjaformsdev.slack.com/archives/C0EFXJF0D/p1524614990000175
  */
 
-(function ($) {
-	var nfRadio = Backbone.Radio;
-	var radioChannel = nfRadio.channel('daterange'); // 'daterange',  the $_type value, defined in date-range-ninja-forms.php
+document.addEventListener('DOMContentLoaded', e => {
+	const nfRadio = Backbone.Radio;
+	const radioChannel = nfRadio.channel('daterange'); // 'daterange',  the $_type value, defined in date-range-ninja-forms.php
 
-	var selectedHTML = Marionette.Object.extend({
+	const selectedHTML = class extends Marionette.Object {
 
 		/**
 		 * initialize()
 		 *
 		 * When initialize the form, listen to the radio chanel to see if there's a 'daterange' chanel.
 		 */
-		initialize: function () {
+		initialize() {
 			this.listenTo(radioChannel, 'render:view', this.renderView);
-		},
+		}
 		/**
 		 * renderView()
 		 *
 		 * When rendering the form (i.e. the view), attach custom javascript code and events.
 		 */
-		renderView: function (view) {
+		renderView(view) {
 
-			var drDateFormat = view.model.get('dr_date_format');
-			var drShowWeekNumbers = view.model.get('dr_show_week_numbers');
-			var drStartOfWeek = view.model.get('dr_start_of_week');
-			var drDisableWeekends = view.model.get('dr_disable_weekends');
-			var drSelectBackward = view.model.get('dr_select_backward');
-			var drSelectForward = view.model.get('dr_select_forward');
-			var drAutoApply = view.model.get('dr_auto_apply');
-			var drToolTip = view.model.get('dr_tooltip');
-			var drTooltipSingular = view.model.get('dr_tooltip_singular');
-			var drTooltipSingular = view.model.get('dr_tooltip_singular');
-			var drTooltipPlural = view.model.get('dr_tooltip_plural');
-			var drMinMaxDate = view.model.get('dr_max_min_date');
-			var drMinMaxDateStart = view.model.get('dr_min_date');
-			var drMinMaxDateEnd = view.model.get('dr_max_date');
-			var drMinMaxDays = view.model.get('dr_min_max_days');
-			var drMinMaxDaysMin = view.model.get('dr_min_days');
-			var drMinMaxDaysMax = view.model.get('dr_max_days');
+			let drDateFormat = view.model.get('dr_date_format');
+			const drShowWeekNumbers = view.model.get('dr_show_week_numbers');
+			const drStartOfWeek = view.model.get('dr_start_of_week');
+			const drDisableWeekends = view.model.get('dr_disable_weekends');
+			const drSelectBackward = view.model.get('dr_select_backward');
+			const drSelectForward = view.model.get('dr_select_forward');
+			const drAutoApply = view.model.get('dr_auto_apply');
+			const drToolTip = view.model.get('dr_tooltip');
+			const drTooltipSingular = view.model.get('dr_tooltip_singular');
+			const drTooltipPlural = view.model.get('dr_tooltip_plural');
+			const drMinMaxDate = view.model.get('dr_max_min_date');
+			const drMinMaxDateStart = view.model.get('dr_min_date');
+			const drMinMaxDateEnd = view.model.get('dr_max_date');
+			const drMinMaxDays = view.model.get('dr_min_max_days');
+			const drMinMaxDaysMin = view.model.get('dr_min_days');
+			const drMinMaxDaysMax = view.model.get('dr_max_days');
 
 			// console.table({
 			// 	drDateFormat: drDateFormat,
@@ -64,15 +63,14 @@
 			if ('' == drDateFormat || 'default' == drDateFormat) {
 				drDateFormat = this.convertDateFormat(drDateRange.dateFormat); // 'drDateRange' from wp_localize in date-range-ninja-forms.php
 			}
+			const daterangeField = view.el.getElementsByClassName('daterange')[0];
 
-			var daterangeField = $(view.el).find('.daterange')[0];
-
-			var lang = drDateRange.lang.replace('_', '-');
+			let lang = drDateRange.lang.replace('_', '-');
 			try {
 				Intl.getCanonicalLocales(lang);
 			} catch (error) {
 				console.error('Invalid date format: %s, should look something like this: en-US', lang);
-				var lang = 'en-US';
+				let lang = 'en-US';
 			}
 
 			const litepickerConfig = {
@@ -140,12 +138,12 @@
 
 			// https://wakirin.github.io/Litepicker/
 			const picker = new Litepicker(litepickerConfig);
-		},
+		}
 		/**
 		 * from https://github.com/wpninjas/ninja-forms/blob/83cccc6815c98a7ef50ca62704b2661eb53dd3cc/assets/js/front-end/controllers/fieldDate.js#L77-L136
 		 * @param {*} dateFormat
 		 */
-		convertDateFormat: function (dateFormat) {
+		convertDateFormat(dateFormat) {
 			// http://php.net/manual/en/function.date.php
 			// https://github.com/dbushell/Pikaday/blob/master/README.md#formatting
 			// Note: Be careful not to add overriding replacements. Order is important here.
@@ -203,22 +201,23 @@
 			dateFormat = dateFormat.replace('u', '');
 
 			return dateFormat;
-		},
+		}
+
 		/**
 		 * From: https://stackoverflow.com/a/35413963
 		 * @param {*} dateString
 		 */
-		isValidDate: function (dateString) {
-			var regEx = /^\d{4}-\d{2}-\d{2}$/;
+		isValidDate(dateString) {
+			const regEx = /^\d{4}-\d{2}-\d{2}$/;
 			if (!dateString.match(regEx)) return false;  // Invalid format
-			var d = new Date(dateString);
-			var dNum = d.getTime();
+			const d = new Date(dateString);
+			const dNum = d.getTime();
 			if (!dNum && dNum !== 0) return false; // NaN value, Invalid date
 			return d.toISOString().slice(0, 10) === dateString;
 		}
-	});
+	};
 
 	new selectedHTML();
 
-})(jQuery)
+});
 
