@@ -108,7 +108,7 @@ add_filter(
 			 * @return void
 			 */
 			public function scripts() {
-				wp_enqueue_script('lightpicker', '//cdn.jsdelivr.net/npm/litepicker/dist/js/main.js', [ 'moment' ], DR_VERSION_NUMBER, true);
+				wp_enqueue_script('lightpicker', '//cdn.jsdelivr.net/npm/litepicker/dist/js/main.js', [], DR_VERSION_NUMBER, true);
 				wp_enqueue_script('date-range', plugin_dir_url(__FILE__) . 'js/date-range.js', [ 'lightpicker' ], DR_VERSION_NUMBER, true);
 				wp_localize_script(
 					'date-range', 'drDateRange', [
