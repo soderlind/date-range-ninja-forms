@@ -10,7 +10,7 @@
 **Tags:** | date
 **Requires at least:** | 4.9.8
 **Tested up to:** | 5.4
-**Stable tag:** | 0.0.6
+**Stable tag:** | 0.0.7
 **Requires PHP:** | 7.2
 **License:** | GPLv2 or later
 **License URI:** | https://www.gnu.org/licenses/gpl-2.0.html
@@ -99,6 +99,10 @@ add_filter( 'date_range_buttontext', function( $buttontext ) {
 ```
 
 ## Changelog
+
+### 0.0.7
+
+* Refactor JavaScript to ES6.
 
 ### 0.0.6
 
