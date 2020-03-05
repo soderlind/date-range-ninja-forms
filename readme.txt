@@ -13,7 +13,65 @@ Add a Date Range field to Ninja Forms.
 
 == Description ==
 
-TBA
+Add a Date Range field to your Ninja Forms.
+
+== Filters ==
+
+Add the filters to your child theme functions.php
+
+= `date_range_lang` =
+
+Override the value returned from get_locale().
+
+E.g. if using Polylang, add:
+
+`
+add_filter( 'date_range_lang', function( $locale ) {
+	if ( function_exists( 'pll_current_language' ) ) {
+		$locale = pll_current_language( 'locale' );
+	}
+	return $locale;
+} );
+`
+
+= `date_range_dropdowns` =
+
+Enable dropdowns for months, years.
+
+If `maxYear` is `null` then `maxYear` will be equal to `(new Date()).getFullYear()`.
+
+`
+add_filter( 'date_range_dropdowns', function( $dropdowns ) {
+
+	$dropdowns = [
+		'minYear' => 2020,
+		'maxYear' => 2030,
+		'months'  => false,
+		'years'   => true, // show dropdown for years.
+	];
+
+	return $dropdowns;
+} );
+`
+
+= `date_range_buttontext` =
+
+Text for buttons.
+
+`
+add_filter( 'date_range_buttontext', function( $buttontext ) {
+
+	$buttontext = [
+		'apply'         => 'Apply',
+		'cancel'        => 'Cancel',
+		'previousMonth' => '<svg .../></svg>',
+		'nextMonth'     => '<svg .../></svg>',
+	];
+
+	return $buttontext;
+} );
+`
+
 
 == Installation ==
 
@@ -23,10 +81,25 @@ TBA
 
 == Screenshots ==
 
-1. Using Ninja Forms to add the Date Range field.
-2. Date Range at the front-end.
+1. Settings.
+2. Using Ninja Forms to add the Date Range field.
+3. Date Range at the front-end.
 
 == Changelog ==
+
+= 0.0.7 =
+
+* Refactor JavaScript to ES6.
+
+= 0.0.6 =
+
+* Fix breaking bug
+
+= 0.0.5 =
+
+* Add more settings.
+* Add [filters](#filters): `date_range_lang`, `date_range_dropdowns` and `date_range_buttontext`.
+* Add `languages/date-range-ninja-forms.pot`
 
 = 0.0.4 =
 
