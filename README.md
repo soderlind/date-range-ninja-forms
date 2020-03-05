@@ -15,9 +15,6 @@
 **License:** | GPLv2 or later
 **License URI:** | https://www.gnu.org/licenses/gpl-2.0.html
 
-Add a Date Range field to Ninja Forms.
-
-
 ## Description
 
 Add a Date Range field to your Ninja Forms.
