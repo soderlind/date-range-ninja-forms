@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', e => {
 	const nfRadio = Backbone.Radio;
 	const radioChannel = nfRadio.channel('daterange'); // 'daterange',  the $_type value, defined in date-range-ninja-forms.php
 
-	const selectedHTML = class extends Marionette.Object {
+	const DateRange = class extends Marionette.Object {
 
 		/**
 		 * initialize()
@@ -217,7 +217,7 @@ document.addEventListener('DOMContentLoaded', e => {
 		}
 	};
 
-	new selectedHTML();
+	new DateRange();
 
 });
 
