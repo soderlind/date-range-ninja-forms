@@ -10,8 +10,9 @@
 **Tags:** | date
 **Requires at least:** | 4.9.8
 **Tested up to:** | 5.4
-**Stable tag:** | 0.0.7
+**Stable tag:** | 0.1.0
 **Requires PHP:** | 7.2
+**Requires JavaScript:** | ES2019
 **License:** | GPLv2 or later
 **License URI:** | https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -96,6 +97,13 @@ add_filter( 'date_range_buttontext', function( $buttontext ) {
 ```
 
 ## Changelog
+
+
+### 0.1.0
+
+* [Custom validation](https://github.com/soderlind/date-range-ninja-forms/blob/master/js/date-range.js#L29-L106) for required fields
+* Add moment.js
+* Refactor code, using ES2019 Class Fields.
 
 ### 0.0.7
 
