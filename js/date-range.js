@@ -1,12 +1,22 @@
 /**
  * Thanks to https://ninjaformsdev.slack.com/archives/C0EFXJF0D/p1524614990000175
  */
+// @ts-check
 
 document.addEventListener('DOMContentLoaded', e => {
 	const nfRadio = Backbone.Radio;
 	const radioChannel = nfRadio.channel('daterange'); // 'daterange',  the $_type value, defined in date-range-ninja-forms.php
+	const submitChannel = nfRadio.channel('submit');
+	const fieldsChannel = nfRadio.channel('fields');
+
 
 	const DateRange = class extends Marionette.Object {
+
+
+		fieldType = 'daterange';
+		fieldID = 0;
+		picker = {};
+		daterangeRequired = 0;
 
 		/**
 		 * initialize()
@@ -15,7 +25,85 @@ document.addEventListener('DOMContentLoaded', e => {
 		 */
 		initialize() {
 			this.listenTo(radioChannel, 'render:view', this.renderView);
+
+			this.listenTo(submitChannel, 'validate:field', this.validateRequiredField);
+			this.listenTo(submitChannel, 'validate:field', this.saveField); // when a field isn't required
+			this.listenTo(fieldsChannel, 'change:model', this.useCustomRequiredField);
 		}
+
+		/**
+		 * Use custom required field
+		 *
+		 * @param {*} model
+		 */
+		useCustomRequiredField(model) {
+
+			if (this.fieldType != model.get('type')) return true;
+			if (0 == model.get('required')) return;
+			if ({} == this.picker) return true;
+
+			if (typeof this.picker.getDate == 'function' && null == this.picker.getDate()) {
+				this.daterangeRequired = 1;
+				this.fieldID = model.get('id');
+				model.set('required', 0);
+			}
+			return true;
+		}
+
+		/**
+		 * validateRequireField()
+		 *
+		 * For required data rage field, check that it has a value.
+		 * Saves validated dates.
+		 *
+		 * @param {*} model
+		 */
+		validateRequiredField(model) {
+			if (this.fieldType != model.get('type')) return true;
+			if (0 == this.daterangeRequired) return;
+			if (!this.picker) return true;
+
+			if ( true === moment(this.picker.getDate(), this.getDateFormat(model), true).isValid() ) {
+				this.addDates(model);
+				// Remove Error from Model
+				fieldsChannel.request('remove:error', model.get('id'), 'required-error');
+			} else {
+				// Add Error to Model
+				fieldsChannel.request('add:error', model.get('id'), 'required-error', nfi18n.validateRequiredField);
+			}
+		}
+
+		/**
+		 * saveField()
+		 *
+		 * Used when the field is not required.
+		 *
+		 * @param {*} model
+		 */
+		saveField(model) {
+			if (this.fieldType != model.get('type')) return true;
+			if (1 == this.daterangeRequired) return true;
+			if (!this.picker) return true;
+
+			if (typeof this.picker.getDate == 'function' && null != this.picker.getDate() && this.picker.getDate() > 0) {
+				this.addDates(model);
+			}
+		}
+
+		/**
+		 * addDates()
+		 *
+		 * Add dates to the model.
+		 *
+		 * @param {*} model
+		 */
+		addDates(model) {
+			const dateFormat = this.getDateFormat(model);
+			const startDate = moment(this.picker.getStartDate()).format(dateFormat);
+			const endDate = moment(this.picker.getEndDate()).format(dateFormat);
+			model.set('value', startDate + ' - ' + endDate);
+		}
+
 		/**
 		 * renderView()
 		 *
@@ -23,108 +111,72 @@ document.addEventListener('DOMContentLoaded', e => {
 		 */
 		renderView(view) {
 
-			let drDateFormat = view.model.get('dr_date_format');
-			const drShowWeekNumbers = view.model.get('dr_show_week_numbers');
-			const drStartOfWeek = view.model.get('dr_start_of_week');
-			const drDisableWeekends = view.model.get('dr_disable_weekends');
-			const drSelectBackward = view.model.get('dr_select_backward');
-			const drSelectForward = view.model.get('dr_select_forward');
-			const drAutoApply = view.model.get('dr_auto_apply');
-			const drToolTip = view.model.get('dr_tooltip');
-			const drTooltipSingular = view.model.get('dr_tooltip_singular');
-			const drTooltipPlural = view.model.get('dr_tooltip_plural');
-			const drMinMaxDate = view.model.get('dr_max_min_date');
-			const drMinMaxDateStart = view.model.get('dr_min_date');
-			const drMinMaxDateEnd = view.model.get('dr_max_date');
-			const drMinMaxDays = view.model.get('dr_min_max_days');
-			const drMinMaxDaysMin = view.model.get('dr_min_days');
-			const drMinMaxDaysMax = view.model.get('dr_max_days');
-
-			// console.table({
-			// 	drDateFormat: drDateFormat,
-			// 	drShowWeekNumbers: drShowWeekNumbers,
-			// 	drStartOfWeek: drStartOfWeek,
-			// 	drDisableWeekends: drDisableWeekends,
-			// 	drSelectBackward: drSelectBackward,
-			// 	drSelectForward: drSelectForward,
-			// 	drAutoApply: drAutoApply,
-			// 	drToolTip: drToolTip,
-			// 	drTooltipSingular: drTooltipSingular,
-			// 	drTooltipPlural: drTooltipPlural,
-			// 	drMinMaxDate: drMinMaxDate,
-			// 	drMinMaxDateStart: drMinMaxDateStart,
-			// 	drMinMaxDateEnd: drMinMaxDateEnd,
-			// 	drMinMaxDays: drMinMaxDays,
-			// 	drMinMaxDaysMin: drMinMaxDaysMin,
-			// 	drMinMaxDaysMax: drMinMaxDaysMax,
-			// });
-
-			// For "default" date format, convert PHP format to JS compatible format.
-			if ('' == drDateFormat || 'default' == drDateFormat) {
-				drDateFormat = this.convertDateFormat(drDateRange.dateFormat); // 'drDateRange' from wp_localize in date-range-ninja-forms.php
-			}
-			const daterangeField = view.el.getElementsByClassName('daterange')[0];
-
-			let lang = drDateRange.lang.replace('_', '-');
-			try {
-				Intl.getCanonicalLocales(lang);
-			} catch (error) {
-				console.error('Invalid date format: %s, should look something like this: en-US', lang);
-				let lang = 'en-US';
-			}
-
 			const litepickerConfig = {
-				element: daterangeField,
-				firstDay: drStartOfWeek,
+				element: view.el.getElementsByClassName('daterange')[0],
+				firstDay: view.model.get('start_of_week'),
+				format: this.getDateFormat(view.model),
+				lang: () => {
+					let lang = drDateRange.lang.replace('_', '-');
+					try {
+						Intl.getCanonicalLocales(lang);
+					} catch (error) {
+						console.error('Invalid date format: %s. Should look something like this: en-US', lang);
+						let lang = 'en-US';
+					}
+					return lang;
+				},
 				singleMode: 0,
-				format: drDateFormat,
-				disableWeekends: drDisableWeekends,
+				disableWeekends: view.model.get('disable_weekends'),
 				numberOfMonths: 2,
 				numberOfColumns: 2,
-				showWeekNumbers: drShowWeekNumbers,
-				selectBackward: drSelectBackward,
-				selectForward: drSelectForward,
-				showTooltip: drToolTip,
-				autoApply: drAutoApply,
-				lang: lang
+				showWeekNumbers: view.model.get('show_week_numbers'),
+				selectBackward: view.model.get('select_backward'),
+				selectForward: view.model.get('select_forward'),
+				showTooltip: view.model.get('tooltip'),
+				autoApply: view.model.get('auto_apply'),
+				onShow: () => {
+					fieldsChannel.request('remove:error', this.fieldID, 'required-error');
+				}
 			};
 
-			if (drToolTip !== 0) {
+			if (0 !== litepickerConfig.showTooltip) {
 				litepickerConfig.tooltipText = {
-					one: drTooltipSingular,
-					other: drTooltipPlural
+					one: view.model.get('tooltip_singular'),
+					other: view.model.get('tooltip_plural')
 				};
 			}
 
-			if (drMinMaxDate != 0) {
-				if (typeof drMinMaxDateStart !== 'undefined' && drMinMaxDateStart !== '') {
-					if (this.isValidDate(drMinMaxDateStart)) {
-						litepickerConfig.minDate = drMinMaxDateStart;
+			if (0 !== view.model.get('max_min_date')) {
+				const minMaxDateStart = view.model.get('min_date');
+				const minMaxDateEnd = view.model.get('max_date');
+
+				if (typeof minMaxDateStart !== 'undefined' && minMaxDateStart !== '') {
+					if (this.isValidDate(minMaxDateStart)) {
+						litepickerConfig.minDate = minMaxDateStart;
 					} else {
-						console.error('Invalid date format: %s  Valid is YYYY-MM-YY. E.g.: 2020-02-29', drMinMaxDateStart);
+						console.error('Invalid date format: %s. Valid is YYYY-MM-YY. E.g.: 2020-02-29', minMaxDateStart);
+					}
+				}
+
+				if (typeof minMaxDateEnd !== 'undefined' && minMaxDateEnd !== '') {
+					if (this.isValidDate(minMaxDateEnd)) {
+						litepickerConfig.maxDate = minMaxDateEnd;
+					} else {
+						console.error('Invalid date format: %s. Valid is YYYY-MM-YY. E.g.: 2020-02-29', minMaxDateEnd);
 					}
 				}
 			}
 
-			if (drMinMaxDate != 0) {
-				if (typeof drMinMaxDateEnd !== 'undefined' && drMinMaxDateEnd !== '') {
-					if (this.isValidDate(drMinMaxDateEnd)) {
-						litepickerConfig.maxDate = drMinMaxDateEnd;
-					} else {
-						console.error('Invalid date format: %s Valid is YYYY-MM-YY. E.g.: 2020-02-29', drMinMaxDateEnd);
-					}
-				}
-			}
+			if (0 !== view.model.get('min_max_days')) {
+				const minMaxDaysMin = view.model.get('min_days');
+				const minMaxDaysMax = view.model.get('max_days');
 
-			if (drMinMaxDays != 0) {
-				if (typeof drMinMaxDaysMin !== 'undefined' && drMinMaxDaysMin !== '' && drMinMaxDaysMin > 0) {
-					litepickerConfig.minDays = drMinMaxDaysMin - 1;
+				if (typeof minMaxDaysMin !== 'undefined' && minMaxDaysMin !== '' && minMaxDaysMin > 0) {
+					litepickerConfig.minDays = minMaxDaysMin - 1;
 				}
-			}
 
-			if (drMinMaxDays != 0) {
-				if (typeof drMinMaxDaysMax !== 'undefined' && drMinMaxDaysMax !== '' && drMinMaxDaysMax > 0) {
-					litepickerConfig.maxDays = drMinMaxDaysMax - 1;
+				if (typeof minMaxDaysMax !== 'undefined' && minMaxDaysMax !== '' && minMaxDaysMax > 0) {
+					litepickerConfig.maxDays = minMaxDaysMax - 1;
 				}
 			}
 
@@ -137,8 +189,22 @@ document.addEventListener('DOMContentLoaded', e => {
 			}
 
 			// https://wakirin.github.io/Litepicker/
-			const picker = new Litepicker(litepickerConfig);
+			this.picker = new Litepicker(litepickerConfig);
+
 		}
+
+		/**
+		 *
+		 * @param {*} model
+		 */
+		getDateFormat(model) {
+			let dateFormat = model.get('date_format');
+			if ('' == dateFormat || 'default' == dateFormat) {
+				dateFormat = this.convertDateFormat(drDateRange.dateFormat); // 'DateRange' from wp_localize in date-range-ninja-forms.php
+			}
+			return dateFormat;
+		}
+
 		/**
 		 * from https://github.com/wpninjas/ninja-forms/blob/83cccc6815c98a7ef50ca62704b2661eb53dd3cc/assets/js/front-end/controllers/fieldDate.js#L77-L136
 		 * @param {*} dateFormat
