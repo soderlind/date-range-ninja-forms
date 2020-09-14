@@ -16,55 +16,55 @@ document.addEventListener(
 			picker = {};
 			daterangeRequired = 0;
 
-			/**
+		/**
 		 * initialize()
 		 *
 		 * When initialize the form, listen to the radio chanel to see if there's a 'daterange' chanel.
 		 */
-			initialize() {
-				this.listenTo(radioChannel, "render:view", this.renderView);
+		initialize() {
+			this.listenTo(radioChannel, "render:view", this.renderView);
 
-				this.listenTo(
-					submitChannel,
-					"validate:field",
-					this.validateRequiredField,
-				);
-				this.listenTo(submitChannel, "validate:field", this.saveField); // when a field isn't required
-				this.listenTo(
-					fieldsChannel,
-					"change:model",
-					this.useCustomRequiredField,
-				);
-			}
+			this.listenTo(
+				submitChannel,
+				"validate:field",
+				this.validateRequiredField,
+			);
+			this.listenTo(submitChannel, "validate:field", this.saveField); // when a field isn't required
+			this.listenTo(
+				fieldsChannel,
+				"change:model",
+				this.useCustomRequiredField,
+			);
+		}
 
-			/**
+		/**
 		 * Use custom required field
 		 *
 		 * @param {*} model
 		 */
-			useCustomRequiredField(model) {
-				if (this.fieldType !== model.get("type")) {
-					return true;
-				}
-				if (0 === model.get("required")) {
-					return;
-				}
-				if ({} === this.picker) {
-					return true;
-				}
-
-				if (
-					typeof this.picker.getDate === "function" &&
-					null == this.picker.getDate()
-				) {
-					this.daterangeRequired = 1;
-					this.fieldID = model.get("id");
-					model.set("required", 0);
-				}
+		useCustomRequiredField(model) {
+			if (this.fieldType !== model.get("type")) {
+				return true;
+			}
+			if (0 === model.get("required")) {
+				return;
+			}
+			if ({} === this.picker) {
 				return true;
 			}
 
-			/**
+			if (
+				typeof this.picker.getDate === "function" &&
+				null == this.picker.getDate()
+			) {
+				this.daterangeRequired = 1;
+				this.fieldID = model.get("id");
+				model.set("required", 0);
+			}
+			return true;
+		}
+
+		/**
 		 * validateRequireField()
 		 *
 		 * For required data rage field, check that it has a value.
@@ -72,67 +72,67 @@ document.addEventListener(
 		 *
 		 * @param {*} model
 		 */
-			validateRequiredField(model) {
-				if (this.fieldType !== model.get("type")) {
-					return true;
-				}
-				if (0 === this.daterangeRequired) {
-					return;
-				}
-				if (!this.picker) {
-					return true;
-				}
-
-				if (
-					true ===
-					dayjs(this.picker.getDate(), this.getDateFormat(model), true).isValid()
-				) {
-					this.addDates(model);
-					// Remove Error from Model
-					fieldsChannel.request(
-						"remove:error",
-						model.get("id"),
-						"required-error",
-					);
-				} else {
-					// Add Error to Model
-					fieldsChannel.request(
-						"add:error",
-						model.get("id"),
-						"required-error",
-						nfi18n.validateRequiredField,
-					);
-				}
+		validateRequiredField(model) {
+			if (this.fieldType !== model.get("type")) {
+				return true;
+			}
+			if (0 === this.daterangeRequired) {
+				return;
+			}
+			if (!this.picker) {
+				return true;
 			}
 
-			/**
+			if (
+				true ===
+				dayjs(this.picker.getDate(), this.getDateFormat(model), true).isValid()
+			) {
+				this.addDates(model);
+				// Remove Error from Model
+				fieldsChannel.request(
+					"remove:error",
+					model.get("id"),
+					"required-error",
+				);
+			} else {
+				// Add Error to Model
+				fieldsChannel.request(
+					"add:error",
+					model.get("id"),
+					"required-error",
+					nfi18n.validateRequiredField,
+				);
+			}
+		}
+
+		/**
 		 * saveField()
 		 *
 		 * Used when the field is not required.
 		 *
 		 * @param {*} model
 		 */
-			saveField(model) {
-				if (this.fieldType !== model.get("type")) {
-					return true;
-				}
-				if (1 === this.daterangeRequired) {
-					return true;
-				}
-				if (!this.picker) {
-					return true;
-				}
-
-				if (
-					typeof this.picker.getDate === "function" &&
-					null != this.picker.getDate() &&
-					this.picker.getDate() > 0
-				) {
-					this.addDates(model);
-				}
+		saveField(model) {
+			if (this.fieldType !== model.get("type")) {
+				return true;
+			}
+			if (1 === this.daterangeRequired) {
+				return true;
+			}
+			if (!this.picker) {
+				return true;
 			}
 
-			/**
+			if (
+				typeof this.picker.getDate === "function" &&
+				null != this.picker.getDate() &&
+				this.picker.getDate() > 0
+			) {
+				this.addDates(model);
+			}
+		}
+
+		/**
 		 * addDates()
 		 *
 		 * Add dates to the model.
@@ -260,7 +260,7 @@ document.addEventListener(
 				this.picker = new Litepicker(litepickerConfig);
 			}
 
-			/**
+		/**
 		 *
 		 * @param {*} model
 		 */
@@ -272,7 +272,7 @@ document.addEventListener(
 				return dateFormat;
 			}
 
-			/**
+		/**
 		 * from https://github.com/wpninjas/ninja-forms/blob/83cccc6815c98a7ef50ca62704b2661eb53dd3cc/assets/js/front-end/controllers/fieldDate.js#L77-L136
 		 * @param {*} dateFormat
 		 */
@@ -335,7 +335,7 @@ document.addEventListener(
 				return dateFormat;
 			}
 
-			/**
+		/**
 		 * From: https://stackoverflow.com/a/35413963
 		 * @param {*} dateString
 		 */
