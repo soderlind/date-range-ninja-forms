@@ -12,7 +12,7 @@
  * Plugin URI: https://github.com/soderlind/date-range-ninja-forms
  * GitHub Plugin URI: https://github.com/soderlind/date-range-ninja-forms
  * Description: Add a Date Range field to your Ninja Forms.
- * Version:     0.1.0
+ * Version:     0.2.0
  * Author:      Per Soderlind
  * Author URI:  https://soderlind.no
  * Text Domain: date-range-ninja-forms
@@ -22,7 +22,7 @@
 
 namespace Soderlind\NinjaForms\DateRange;
 
-define( 'DR_VERSION_NUMBER', '0.0.7' );
+define( 'DR_VERSION_NUMBER', '0.2.0' );
 /**
  * Register Date Range field
  */
@@ -107,8 +107,8 @@ add_filter(
 			 * @return void
 			 */
 			public function scripts() {
-				wp_enqueue_script( 'moment', '//cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment-with-locales.min.js', array(), DR_VERSION_NUMBER, true );
-				wp_enqueue_script( 'lightpicker', '//cdn.jsdelivr.net/npm/litepicker/dist/js/main.js', array( 'moment' ), DR_VERSION_NUMBER, true );
+				wp_enqueue_script( 'dayjs', '//cdnjs.cloudflare.com/ajax/libs/dayjs/1.8.35/dayjs.min.js', array(), DR_VERSION_NUMBER, true );
+				wp_enqueue_script( 'lightpicker', '//cdn.jsdelivr.net/npm/litepicker/dist/js/main.js', array( 'dayjs' ), DR_VERSION_NUMBER, true );
 				wp_enqueue_script( 'date-range', plugin_dir_url( __FILE__ ) . 'js/date-range.js', array( 'lightpicker' ), DR_VERSION_NUMBER, true );
 				wp_localize_script(
 					'date-range',

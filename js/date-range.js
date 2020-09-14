@@ -63,7 +63,7 @@ document.addEventListener('DOMContentLoaded', e => {
 			if (0 == this.daterangeRequired) return;
 			if (!this.picker) return true;
 
-			if ( true === moment(this.picker.getDate(), this.getDateFormat(model), true).isValid() ) {
+			if (true === dayjs(this.picker.getDate(), this.getDateFormat(model), true).isValid() ) {
 				this.addDates(model);
 				// Remove Error from Model
 				fieldsChannel.request('remove:error', model.get('id'), 'required-error');
@@ -99,8 +99,8 @@ document.addEventListener('DOMContentLoaded', e => {
 		 */
 		addDates(model) {
 			const dateFormat = this.getDateFormat(model);
-			const startDate = moment(this.picker.getStartDate()).format(dateFormat);
-			const endDate = moment(this.picker.getEndDate()).format(dateFormat);
+			const startDate = dayjs(this.picker.getStartDate()).format(dateFormat);
+			const endDate = dayjs(this.picker.getEndDate()).format(dateFormat);
 			model.set('value', startDate + ' - ' + endDate);
 		}
 
