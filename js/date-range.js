@@ -201,16 +201,19 @@ document.addEventListener(
 
 					// get the start date and check if its a query string
 					if (minMaxDateStart.includes('{querystring:')){
+						// get query string key from input date and replace whitespace
 						const qStringStart = minMaxDateStart.split(':')[1].replace('}', '');
+						// get query string value by key
 						const queryDateStart = urlParams.get(qStringStart);
-						if (queryDateStart) minMaxDateStart = urlParams.get(qStringStart);
+						// if the value is not null. Set it as the chosen date and remove any unwanted whitespace.
+						if (queryDateStart) minMaxDateStart = queryDateStart.replace(/\s/g, '');;
 					}
 
-					// get the end date and check if its a query string
+					// get the end date and check if its a query string...
 					if (minMaxDateEnd.includes('{querystring:')){
 						const qStringEnd = minMaxDateEnd.split(':')[1].replace('}', '');
 						const queryDateEnd = urlParams.get(qStringEnd);
-						if (queryDateEnd) minMaxDateEnd = urlParams.get(qStringEnd);
+						if (queryDateEnd) minMaxDateEnd = queryDateEnd.replace(/\s/g, '');
 					}
 
 					if (typeof minMaxDateStart !== "undefined" && minMaxDateStart !== "") {
