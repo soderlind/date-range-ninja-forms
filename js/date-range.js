@@ -195,8 +195,23 @@ document.addEventListener(
 				}
 
 				if (0 !== view.model.get("max_min_date")) {
-					const minMaxDateStart = view.model.get("min_date");
-					const minMaxDateEnd = view.model.get("max_date");
+					let minMaxDateStart = view.model.get("min_date");
+					let minMaxDateEnd = view.model.get("max_date");
+					const urlParams = new URLSearchParams(window.location.search);
+
+					// get the start date and check if its a query string
+					if (minMaxDateStart.includes('{querystring:')){
+						const qStringStart = minMaxDateStart.split(':')[1].replace('}', '');
+						const queryDateStart = urlParams.get(qStringStart);
+						if (queryDateStart) minMaxDateStart = urlParams.get(qStringStart);
+					}
+
+					// get the end date and check if its a query string
+					if (minMaxDateEnd.includes('{querystring:')){
+						const qStringEnd = minMaxDateEnd.split(':')[1].replace('}', '');
+						const queryDateEnd = urlParams.get(qStringEnd);
+						if (queryDateEnd) minMaxDateEnd = urlParams.get(qStringEnd);
+					}
 
 					if (typeof minMaxDateStart !== "undefined" && minMaxDateStart !== "") {
 						if (this.isValidDate(minMaxDateStart)) {
