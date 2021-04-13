@@ -2,20 +2,6 @@
 [Description](#description) | [Installation](#installation) | [Screenshots](#screenshots) | [Filters](#filters) | [Changelog](#changelog) | [Credits](#credits) | [Copyright and License](#copyright-and-license)
 
 
-
-&nbsp; | &nbsp;
------------- | -------------
-**Contributors:** | PerS
-**Donate link:** | https://soderlind.no/donate/
-**Tags:** | date
-**Requires at least:** | 4.9.8
-**Tested up to:** | 5.4
-**Stable tag:** | 0.1.0
-**Requires PHP:** | 7.2
-**Requires JavaScript:** | ES2019
-**License:** | GPLv2 or later
-**License URI:** | https://www.gnu.org/licenses/gpl-2.0.html
-
 ## Description
 
 Add a Date Range field to your Ninja Forms.
