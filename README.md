@@ -1,4 +1,8 @@
 # Date Range field for Ninja Forms
+
+[![Latest Stable Version](https://poser.pugx.org/soderlind/date-range-ninja-forms/v)](//packagist.org/packages/soderlind/date-range-ninja-forms)
+
+
 [Description](#description) | [Installation](#installation) | [Screenshots](#screenshots) | [Filters](#filters) | [Changelog](#changelog) | [Credits](#credits) | [Copyright and License](#copyright-and-license)
 
 
