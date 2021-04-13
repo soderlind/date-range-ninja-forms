@@ -98,6 +98,13 @@ add_filter( 'date_range_buttontext', function( $buttontext ) {
 
 ## Changelog
 
+### 1.0.1
+
+* Add date setting field
+
+### 1.0.0
+
+* Refactor
 
 ### 0.1.0
 

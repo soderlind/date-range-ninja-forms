@@ -1,0 +1,22 @@
+{
+	"name": "soderlind/date-range-ninja-forms",
+	"description": "Date Range field for Ninja Forms",
+	"type": "wordpress-plugin",
+	"homepage": "https://github.com/soderlind/date-range-ninja-forms",
+	"license": [
+		"GPL-2.0-only"
+	],
+	"authors": [
+		{
+			"name": "Per Søderlind",
+			"role": "Developer",
+			"email": "per@soderlind.no",
+			"homepage": "https://soderlind.no"
+		}
+	],
+	"autoload": {
+		"psr-4": {
+			"Soderlind\\NinjaForms\\DateRange\\": "src/"
+		}
+	}
+}

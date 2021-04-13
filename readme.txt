@@ -2,8 +2,8 @@
 Contributors: PerS
 Donate link: https://soderlind.no/donate/
 Tags: date
-Requires at least: 4.9.8
-Tested up to: 5.4
+Requires at least: 5.4
+Tested up to: 5.7
 Stable tag: trunk
 Requires PHP: 7.2
 License: GPLv2 or later
@@ -86,6 +86,14 @@ add_filter( 'date_range_buttontext', function( $buttontext ) {
 3. Date Range at the front-end.
 
 == Changelog ==
+
+= 1.0.1 =
+
+* Add date setting field.
+
+= 1.0.0 =
+
+* Refactor
 
 = 0.0.7 =
 
