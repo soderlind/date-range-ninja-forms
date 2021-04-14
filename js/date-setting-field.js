@@ -9,15 +9,8 @@ document.addEventListener(
 	() => {
 		const nfRadio = Backbone.Radio; // rome-ignore lint/js/noUndeclaredVariables: Backbone is an external object.
 
-		const DateRangeMinDateSettingChannel = nfRadio.channel(
-			"setting-min_date",
-		);
-		const DateRangeMaxDateSettingChannel = nfRadio.channel(
-			"setting-max_date",
-		);
-		// const iCalendarTimeEndSettingChannel = nfRadio.channel(
-		// 	"setting-icalendar_time_end",
-		// );
+		const DateRangeMinDateSettingChannel = nfRadio.channel("setting-min_date");
+		const DateRangeMaxDateSettingChannel = nfRadio.channel("setting-max_date");
 
 		const DateField = class extends Marionette.Object { // rome-ignore lint/js/noUndeclaredVariables: Marionett is an external object.
 			nfTextboxStyle = {
@@ -63,9 +56,8 @@ document.addEventListener(
 				element.attributes["pattern"] = "d{4}-d{2}-d{2}";
 				Object.assign(element.style, this.nfTextboxStyle);
 			}
-
 		};
 
 		new DateField();
-	}
+	},
 );

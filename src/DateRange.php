@@ -13,7 +13,7 @@ declare( strict_types = 1 );
 namespace Soderlind\NinjaForms\DateRange;
 
 /**
- * iCalendar.
+ * DateRange.
  */
 final class DateRange {
 
@@ -30,7 +30,7 @@ final class DateRange {
 	 * @return object
 	 */
 	public static function instance() : object {
-		if ( ! isset( self::$instance ) && ! ( self::$instance instanceof iCalendar ) ) {
+		if ( ! isset( self::$instance ) && ! ( self::$instance instanceof DateRange ) ) {
 			self::$instance = new DateRange();
 			self::$instance->init();
 		}
@@ -56,7 +56,7 @@ final class DateRange {
 	 * @return array
 	 */
 	public function register_fields( $fields ) {
-		$fields['daterange'] = new Field() ;
+		$fields['daterange'] = new Field();
 
 		return $fields;
 	}
@@ -198,7 +198,6 @@ final class DateRange {
 			'name'  => 'tooltip_plural',
 			'type'  => 'textbox',
 			'label' => esc_html__( 'Plural', 'date-range-ninja-forms' ),
-			// 'placeholder' => 'days',
 			'width' => 'one-third',
 			'group' => 'advanced',
 			'value' => 'days',
@@ -355,6 +354,11 @@ final class DateRange {
 		return $settings;
 	}
 
+	/**
+	 * Enqueue setting field script.
+	 *
+	 * @return void
+	 */
 	public function admin_scripts() {
 		wp_enqueue_script( 'date-setting-field', plugin_dir_url( DATERANGE_FILE ) . 'js/date-setting-field.js', [], DATERANGE_VERSION, true );
 	}

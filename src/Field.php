@@ -12,6 +12,9 @@ declare( strict_types = 1 );
 
 namespace Soderlind\NinjaForms\DateRange;
 
+/**
+ * Date Range field.
+ */
 class Field extends \NF_Abstracts_Input {
 
 	/**
@@ -19,56 +22,56 @@ class Field extends \NF_Abstracts_Input {
 	 *
 	 * @var string
 	 */
-	protected $_name = 'daterange';
+	protected $_name = 'daterange'; // phpcs:ignore
 
 	/**
 	 * Field type.
 	 *
 	 * @var string
 	 */
-	protected $_type = 'daterange';
+	protected $_type = 'daterange'; // phpcs:ignore
 
 	/**
 	 * Field name.
 	 *
 	 * @var string
 	 */
-	protected $_nicename = 'Date Range';
+	protected $_nicename = 'Date Range'; // phpcs:ignore
 
 	/**
 	 * Field section.
 	 *
 	 * @var string
 	 */
-	protected $_section = 'common';
+	protected $_section = 'common'; // phpcs:ignore
 
 	/**
 	 * Dashicon for field.
 	 *
 	 * @var string
 	 */
-	protected $_icon = 'calendar';
+	protected $_icon = 'calendar'; // phpcs:ignore
 
 	/**
 	 * Template name. Maps to fields-daterange.html, path set in register_template_path()
 	 *
 	 * @var string
 	 */
-	protected $_templates = 'daterange';
+	protected $_templates = 'daterange'; // phpcs:ignore
 
 	/**
 	 * Test value.
 	 *
 	 * @var string
 	 */
-	protected $_test_value = '';
+	protected $_test_value = ''; // phpcs:ignore
 
 	/**
 	 * Setting IDs.
 	 *
 	 * @var array
 	 */
-	protected $_settings = [
+	protected $_settings = [ // phpcs:ignore
 		'date_format',
 		'start_of_week',
 		'tooltip_fieldset',
@@ -93,11 +96,11 @@ class Field extends \NF_Abstracts_Input {
 	]; // maps to the settings array, see the ninja_forms_field_settings filter below.
 
 	/**
-	 * Exclude fields.
+	 * Exclude fields. i.e. remove noise.
 	 *
 	 * @var array
 	 */
-	protected $_settings_exclude = [ 'default', 'input_limit_set', 'disable_input' ]; // remove noice.
+	protected $_settings_exclude = [ 'default', 'input_limit_set', 'disable_input' ]; // phpcs:ignore
 
 	/**
 	 * Constructor.

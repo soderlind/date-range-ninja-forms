@@ -88,6 +88,10 @@ add_filter( 'date_range_buttontext', function( $buttontext ) {
 
 ## Changelog
 
+### 1.0.2
+
+* Lint source code using PHP CodeSniffer and [Rome](https://rome.tools/).
+
 ### 1.0.1
 
 * Add date setting field
