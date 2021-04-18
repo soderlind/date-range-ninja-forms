@@ -86,6 +86,10 @@ add_filter( 'date_range_buttontext', function( $buttontext ) {
 } );
 ```
 
+## See also
+
+I've created an [iCalendar](https://github.com/soderlind/icalendar-ninja-form) add-on for Ninja Forms.
+
 ## Changelog
 
 ### 1.0.2
