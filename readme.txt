@@ -87,6 +87,10 @@ add_filter( 'date_range_buttontext', function( $buttontext ) {
 
 == Changelog ==
 
+= 1.1.0 =
+
+* Update to latest version of [Litepicker](https://github.com/wakirin/Litepicker)
+
 = 1.0.2 =
 
 * Lint source code using PHP CodeSniffer and [Rome](https://rome.tools/).

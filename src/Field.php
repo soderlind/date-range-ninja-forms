@@ -156,7 +156,7 @@ class Field extends \NF_Abstracts_Input {
 	 */
 	public function scripts() {
 		wp_enqueue_script( 'dayjs', '//cdnjs.cloudflare.com/ajax/libs/dayjs/1.8.35/dayjs.min.js', [], DATERANGE_VERSION, true );
-		wp_enqueue_script( 'lightpicker', '//cdn.jsdelivr.net/npm/litepicker/dist/js/main.js', [ 'dayjs' ], DATERANGE_VERSION, true );
+		wp_enqueue_script( 'lightpicker', '//cdn.jsdelivr.net/npm/litepicker/dist/litepicker.js', [ 'dayjs' ], DATERANGE_VERSION, true );
 		wp_enqueue_script( 'date-range', plugin_dir_url( DATERANGE_FILE ) . 'js/date-range.js', [ 'lightpicker' ], DATERANGE_VERSION, true );
 		wp_localize_script(
 			'date-range',

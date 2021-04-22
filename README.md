@@ -92,55 +92,59 @@ I've created an [iCalendar](https://github.com/soderlind/icalendar-ninja-form) a
 
 ## Changelog
 
+### 1.1.0
+
+- Update to latest version of [Litepicker](https://github.com/wakirin/Litepicker)
+
 ### 1.0.2
 
-* Lint source code using PHP CodeSniffer and [Rome](https://rome.tools/).
+- Lint source code using PHP CodeSniffer and [Rome](https://rome.tools/).
 
 ### 1.0.1
 
-* Add date setting field
+- Add date setting field
 
 ### 1.0.0
 
-* Refactor
+- Refactor
 
 ### 0.1.0
 
-* [Custom validation](https://github.com/soderlind/date-range-ninja-forms/blob/master/js/date-range.js#L29-L106) for required fields
-* Add moment.js
-* Refactor code, using ES2019 Class Fields.
+- [Custom validation](https://github.com/soderlind/date-range-ninja-forms/blob/master/js/date-range.js#L29-L106) for required fields
+- Add moment.js
+- Refactor code, using ES2019 Class Fields.
 
 ### 0.0.7
 
-* Refactor JavaScript to ES6.
+- Refactor JavaScript to ES6.
 
 ### 0.0.6
 
-* Fix breaking bug
+- Fix breaking bug
 
 ### 0.0.5
 
-* Add more settings.
-* Add [filters](#filters): `date_range_lang`, `date_range_dropdowns` and `date_range_buttontext`.
-* Add `languages/date-range-ninja-forms.pot`
+- Add more settings.
+- Add [filters](#filters): `date_range_lang`, `date_range_dropdowns` and `date_range_buttontext`.
+- Add `languages/date-range-ninja-forms.pot`
 
 
 ### 0.0.4
 
-* Replace Lightpick, no longer maintained, with [Litepicker](https://github.com/wakirin/Litepicker)
+- Replace Lightpick, no longer maintained, with [Litepicker](https://github.com/wakirin/Litepicker)
 
 
 ### 0.0.3
 
-* In Ninja Forms builder, select WP Settings date.
+- In Ninja Forms builder, select WP Settings date.
 
 ### 0.0.2
 
-* Set date format in Ninja Form builder
+- Set date format in Ninja Form builder
 
 ### 0.0.1
 
-* Initial release.
+- Initial release.
 
 
 ## Credits

@@ -12,7 +12,7 @@
  * Plugin URI: https://github.com/soderlind/date-range-ninja-forms
  * GitHub Plugin URI: https://github.com/soderlind/date-range-ninja-forms
  * Description: Add a Date Range field to your Ninja Forms.
- * Version:     1.0.2
+ * Version:     1.1.0
  * Author:      Per Soderlind
  * Author URI:  https://soderlind.no
  * Text Domain: date-range-ninja-forms
@@ -26,7 +26,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	\wp_die();
 }
 const DATERANGE_FILE    = __FILE__;
-const DATERANGE_VERSION = '1.0.2';
+const DATERANGE_VERSION = '1.1.0';
 
 require_once \plugin_dir_path( DATERANGE_FILE ) . 'vendor/autoload.php';
 
