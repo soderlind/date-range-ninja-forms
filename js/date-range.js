@@ -143,7 +143,9 @@ document.addEventListener(
 				const dateFormat = this.getDateFormat(model);
 				const startDate = dayjs(this.picker.getStartDate()).format(dateFormat);
 				const endDate = dayjs(this.picker.getEndDate()).format(dateFormat);
-				model.set("value", `${startDate} - ${endDate}`);
+
+				if (this.singleMode) model.set("value", startDate);
+				else model.set("value", `${startDate} - ${endDate}`);
 			}
 
 		/**
@@ -178,6 +180,17 @@ document.addEventListener(
 					selectForward: view.model.get("select_forward"),
 					showTooltip: view.model.get("tooltip"),
 					autoApply: view.model.get("auto_apply"),
+					lockDays: [
+						// 2021
+						'2021-01-01', '2021-03-28', '2021-04-01', '2021-04-02', '2021-04-04', 
+						'2021-04-05', '2021-04-30', '2021-05-13', '2021-05-23', '2021-05-24',
+						'2021-06-05', '2021-12-24', '2021-12-25', '2021-12-26', '2021-12-31',
+					
+						// 2022
+						'2021-01-01', '2021-04-10', '2021-04-14', '2021-04-15', '2021-04-17', 
+						'2021-04-18', '2021-05-13', '2021-05-26', '2021-06-05', '2021-06-06', 
+						'2021-12-24', '2021-12-25', '2021-12-26', '2021-12-31'
+					],
 					onShow: () => {
 						fieldsChannel.request(
 							"remove:error",
@@ -218,7 +231,20 @@ document.addEventListener(
 
 					if (typeof minMaxDateStart !== "undefined" && minMaxDateStart !== "") {
 						if (this.isValidDate(minMaxDateStart)) {
-							litepickerConfig.minDate = minMaxDateStart;
+							let currentDate = new Date();
+							currentDate.setDate(currentDate.getDate() + 4);
+							
+							// some locations needs extra days to aquire the vehicle
+							const location = urlParams.get('location');
+							if (location && location === '16') {
+								// add 2 days
+								currentDate.setDate(currentDate.getDate() + 2);
+							};
+
+							// if the selected min date is in the past, use the current date instead
+							if (new Date(minMaxDateStart) < currentDate) litepickerConfig.minDate = currentDate;
+							// else use the selected date
+							else litepickerConfig.minDate = minMaxDateStart;
 						} else {
 							console.error(
 								"Invalid date format: %s. Valid is YYYY-MM-YY. E.g.: 2020-02-29",
@@ -257,6 +283,12 @@ document.addEventListener(
 						minMaxDaysMax > 0
 					) {
 						litepickerConfig.maxDays = minMaxDaysMax - 1;
+
+						// if max days is one, set single date
+						if (minMaxDaysMax === 1 && minMaxDaysMin === 0){
+							litepickerConfig.singleMode = 1;
+							this.singleMode = 1;
+						}
 					}
 				}
 
