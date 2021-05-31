@@ -22,7 +22,7 @@
 
 namespace Soderlind\NinjaForms\DateRange;
 
-define( 'DR_VERSION_NUMBER', '0.2.1' );
+define( 'DR_VERSION_NUMBER', '0.2.2' );
 /**
  * Register Date Range field
  */

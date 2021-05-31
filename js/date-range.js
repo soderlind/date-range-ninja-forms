@@ -235,9 +235,10 @@ document.addEventListener(
 							currentDate.setDate(currentDate.getDate() + 4);
 							
 							// some locations needs extra days to aquire the vehicle
-							const location = urlParams.get('location');
-							if (location && location === '16') {
+							const pickupLocation = urlParams.get('location');
+							if (pickupLocation && parseInt(pickupLocation) === 16) {
 								// add 2 days
+								console.log('adding 2 extra days')
 								currentDate.setDate(currentDate.getDate() + 2);
 							};
 
